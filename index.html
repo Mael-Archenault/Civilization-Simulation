@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civilisation Simulation</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+<div class = "sidebar">
+    <div class = "top">
+        <div class="title">
+            <span>Map Generator</span>
+        </div>
+        <i class = "bx bx-menu" id = "btn"></i>
+    </div>
+
+    <ul>
+        <li class="cursor">
+            
+            <span class="nav-item">Size</span>
+            <input type="range" min="0" max = "100" class="sizeSlider">
+        </li>
+        <li class="cursor">
+            
+            <span class="nav-item">Area</span>
+            <input type="range" min="0" max = "100" class="areaSlider">
+            
+        </li>
+
+        <li>
+            <span class="nav-item">Seed</span>
+            <input type="text" class="seedTextbox">
+            
+        </li>
+
+        <li>
+            <input type="button" class="generateButton" value = "Generate map">   
+        </li>
+
+        <li>
+            <input type="button" class="generateRandomButton" value = "Generate random map">   
+        </li>
+    </ul>
+</div>
+<div class="main-content">
+    <div class="container">
+        <canvas id="canvas" class="canvas"></canvas>
+    </div>
+</div>
+<script>
+    let btn = document.getElementById("btn");
+    const sidebar = document.querySelector(".sidebar");
+
+    btn.onclick = function () {
+        sidebar.classList.toggle("active");
+    }
+</script>
+<script src="mapGeneration.js"></script>
+<script src="display.js"></script>
+<script src="mouseControl.js"></script>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</body>
+
+
+</html>
