@@ -3,22 +3,15 @@
 // Initializations main variables
 //----------------------------------------------------------------
 
-const seed = 46874565;
-var thresholds = [{value:0, color:"rgba(0,0,0,0)"},{value:10, color:"rgb(208,220,81)"},{value:30, color: "rgb(136,93,81)"},{value:50, color: "rgb(54,136,41)"},{value:200, color: "rgba(77,79,75)"},{value:240, color: "rgba(255,255,255)"},{value:250, color: "rgba(255,255,255)"}]
-var sizeInput = 50;
-var areaInput = 50*25;
+var thresholds = [{value:0, color:"rgba(0,0,0,0)", name:"Water"},{value:10, color:"rgb(208,220,81)", name:"Sand"},{value:30, color: "rgb(136,93,81)", name:"Ground"},{value:50, color: "rgb(54,136,41)", name:"Grassland"},{value:200, color: "rgb(77,79,75)", name:"Mountain"},{value:240, color: "rgb(255,255,255)", name:"Peak"},{value:260, color: "rgb(255,255,255)", name:"Sky"}]
 
-// limits for the sliders
-const maxSize = 200;
-const minSize = 20;
-const maxArea = 60; 
-const minArea = 10;
 
 //----------------------------------------------------------------
 // Elements variables
 //----------------------------------------------------------------
 const areaSlider = document.querySelector(".areaSlider");
 const sizeSlider = document.querySelector(".sizeSlider");
+const forestSlider = document.querySelector(".forestSlider");
 const seedTextbox = document.querySelector(".seedTextbox");
 const generateButton = document.querySelector(".generateButton");
 const generateRandomButton = document.querySelector(".generateRandomButton");
@@ -30,20 +23,21 @@ generateButton.onclick = setMap;
 generateRandomButton.onclick = setRandomMap;
 
 //----------------------------------------------------------------
-// Map setup functions
+// mapData setup functions
 //----------------------------------------------------------------
 
 function setMap (){
     let sizePercent = sizeSlider.value;
     let areaPercent = areaSlider.value;
+    let forestPercent = forestSlider.value;
 
 
     let size = Math.round(minSize + sizePercent *(maxSize-minSize)/100);
     let area = Math.round((size*size)*(minArea + areaPercent *(maxArea-minArea)/100)/100);
     rdn = new SeededRandom(seedTextbox.value);
-    mapObject = new Map(size, area);
-    
+    mapData = new Map(size, area, forestPercent);
     displayAll();
+    
 }
 
 function setRandomMap (){
@@ -53,33 +47,8 @@ function setRandomMap (){
     setMap();
 }
 
-//----------------------------------------------------------------
-// Random Generator
-//----------------------------------------------------------------
-
-class SeededRandom {
-    constructor(seed) {
-        this.seed = seed;
-        
-    }
-    next = ()=>{
-        this.seed = (1664525 * this.seed + 1013904223) % 4294967296;
-        return this.seed / 4294967296;
-    }
-
-    // Function to generate a random integer between min and max (inclusive)
-    nextInt(min, max) {
-        return Math.floor(this.next() * (max - min + 1)) + min;
-    }
-
-    // Function to generate a random float between min and max
-    nextFloat(min, max) {
-        return this.next() * (max - min) + min;
-    }
-}
 
 
-let rdn = new SeededRandom(seed);
 
 
 
@@ -218,7 +187,7 @@ function normalizeArray(array) {
 
     // If the range is 0, all elements are the same and can be set to 1 or any value between 0 and 1
     if (range === 0) {
-        return array.map(() => 1); // or 0.5 or any constant value
+        return array.mapData(() => 1); // or 0.5 or any constant value
     }
 
     // Normalize the array
@@ -232,26 +201,26 @@ function normalizeArray(array) {
 }
 
 
-function smoothing2D(map) {
-    let smoothedMap = new Array(map.length);
-    for (let y = 0; y < map.length; y++) {
-        smoothedMap[y] = new Array(map[y].length);
-        for (let x = 0; x < map[y].length; x++) {
-            smoothedMap[y][x] = averageOfNeighbors(map, x, y);
+function smoothing2D(mapData) {
+    let smoothedMap = new Array(mapData.length);
+    for (let y = 0; y < mapData.length; y++) {
+        smoothedMap[y] = new Array(mapData[y].length);
+        for (let x = 0; x < mapData[y].length; x++) {
+            smoothedMap[y][x] = averageOfNeighbors(mapData, x, y);
         }
     }
     return smoothedMap;
 }
 
-function averageOfNeighbors(map, x, y) {
+function averageOfNeighbors(mapData, x, y) {
     let sum = 0;
     let count = 0;
     for (let offsetY = -1; offsetY <= 1; offsetY++) {
         for (let offsetX = -1; offsetX <= 1; offsetX++) {
             let newX = x + offsetX;
             let newY = y + offsetY;
-            if (newX >= 0 && newX < map[0].length && newY >= 0 && newY < map.length) {
-                sum += map[newY][newX];
+            if (newX >= 0 && newX < mapData[0].length && newY >= 0 && newY < mapData.length) {
+                sum += mapData[newY][newX];
                 count++;
             }
         }
@@ -259,23 +228,23 @@ function averageOfNeighbors(map, x, y) {
     return sum / count;
 }
 
-function cropCorners(map){
-    a = map.length/2;
-    b = map[0].length/2;
-    for (let y = 0; y < map.length; y++) {
-        for (let x = 0; x < map[y].length; x++) {
-            if (((x-map[0].length/2)/a)**2 + ((y-map.length/2)/b)**2 > 1) {
+function cropCorners(mapData){
+    a = mapData.length/2;
+    b = mapData[0].length/2;
+    for (let y = 0; y < mapData.length; y++) {
+        for (let x = 0; x < mapData[y].length; x++) {
+            if (((x-mapData[0].length/2)/a)**2 + ((y-mapData.length/2)/b)**2 > 1) {
                 if (rdn.next()>0.4){
-                    map[y][x] = 0;
+                    mapData[y][x] = 0;
                 }
             }
         }
     }
-    return map;
+    return mapData;
 }
 
 //----------------------------------------------------------------
-// Final Map Generator
+// Final mapData Generator
 //----------------------------------------------------------------
 function generateMap(width, height, area) {
     let scale = width/2; // Experiment with this value
@@ -317,15 +286,22 @@ function generateMap(width, height, area) {
     return complexMap;
 }
 
+generateForestMap = (width, height, area)=> {
+    let scale = width/4; // Experiment with this value
+    let octaves = 2; // Number of layers
+    let persistence = 1; // Contribution of each octave
+    let res = generateOctavePerlinNoise(width, height, Math.round(width/8), octaves, persistence);
+    return normalizeArray(res);
+}
 
 //----------------------------------------------------------------
 // Area adjustment functions
 //----------------------------------------------------------------
-function mesureArea(map, treshold){
+function mesureArea(mapData, treshold){
     let mesuredArea = 0;
-    for (let y = 0; y < map.length; y++) {
-        for (let x = 0; x < map[y].length; x++) {
-            if (map[y][x] > treshold) {
+    for (let y = 0; y < mapData.length; y++) {
+        for (let x = 0; x < mapData[y].length; x++) {
+            if (mapData[y][x] > treshold) {
                 mesuredArea++;
             }
         }
@@ -334,79 +310,117 @@ function mesureArea(map, treshold){
 
 }
 
-function adjustArea(map, area, treshold) {
-    let mesuredArea = mesureArea(map, treshold);
+function adjustArea(mapData, area, treshold) {
+    let mesuredArea = mesureArea(mapData, treshold);
     
     if (mesuredArea > area) {
         while (mesuredArea > area) {
            
-            map = translateZ(map, 1);
-            mesuredArea = mesureArea(map, treshold);
+            mapData = translateZ(mapData, 1);
+            mesuredArea = mesureArea(mapData, treshold);
         }
-        return map
+        return mapData
     }
     else if (mesuredArea < area) {
         while (mesuredArea < area) {
           
-            map = translateZ(map, -1);
-            mesuredArea = mesureArea(map, treshold);
+            mapData = translateZ(mapData, -1);
+            mesuredArea = mesureArea(mapData, treshold);
         }
-        return map
+        return mapData
     }
 }
 
 
-function translateZ(map, step){
-    for (let y = 0; y < map.length; y++) {
-        for (let x = 0; x < map[y].length; x++) {
-            if (map[y][x]-step < 0) {
-                map[y][x] = 0;
+function translateZ(mapData, step){
+    for (let y = 0; y < mapData.length; y++) {
+        for (let x = 0; x < mapData[y].length; x++) {
+            if (mapData[y][x]-step < 0) {
+                mapData[y][x] = 0;
             }
-            else if (map[y][x]-step > 255) {
-                map[y][x] = 255;
+            else if (mapData[y][x]-step > 255) {
+                mapData[y][x] = 255;
             }
             else {
-                map[y][x] -= step;
+                mapData[y][x] -= step;
             }
             
         }
     }
-    return map
+    return mapData
     
 }
 
 
 //----------------------------------------------------------------
-// Add color to the map
+// Add color to the mapData
 //----------------------------------------------------------------
 
 
-colorMap = (map, thresholds) => {
+colorMap = (labelledMap, forestMap, forest_threshold, thresholds) => {
     
-    let res  = new Array(map.length);
-    for (let y = 0; y < map.length; y++) {
-        res[y] = new Array(map[y].length);
+    let res  = new Array(labelledMap.length);
+    for (let y = 0; y < labelledMap.length; y++) {
+        res[y] = new Array(labelledMap[y].length);
     }
-    for (let y = 0; y < map.length; y++) {
-        for (let x = 0; x < map[y].length; x++) {
-            res[y][x] = findColor(map[y][x], thresholds);
+
+    for (let y = 0; y < labelledMap.length; y++) {
+        for (let x = 0; x < labelledMap[y].length; x++) {
+            if (labelledMap[y][x]==3 && forestMap[y][x] > forest_threshold) {
+                res[y][x] = "rgb(24,65,17)";
+            }
+            else{
+                res[y][x] = thresholds[labelledMap[y][x]].color;
+            }
         }
     }
     return res;
 }
 
-function findColor(level, thresholds){
-    // tresholds is a list of sorted objects with atributes : color, treshold
-    let value;
+
+// the labels are defined as follow :
+
+// | Label          | Value |
+// |----------------|-------|
+// | Water          | 0     |
+// | Sand           | 1     |
+// | Ground         | 2     |
+// | Grass          | 3     |
+// | Mountain bottom| 4     |
+// | Peak           | 5     |
+// | Forest         | 6     |
+
+labelMap = (mapData, thresholds) => {
+    let res  = new Array(mapData.length);
+    for (let y = 0; y < mapData.length; y++) {
+        res[y] = new Array(mapData[y].length);
+    }
+    for (let y = 0; y < mapData.length; y++) {
+        for (let x = 0; x < mapData[y].length; x++) {
+            res[y][x] = findLabel(mapData[y][x], thresholds);
+        }
+    }
+    return res;
+}
+function findLabel(level, thresholds){
+    // tresholds is a list of sorted objects with attributes : color, treshold
     
     for(let i=0;i<thresholds.length-1;i++){
         if ((level < thresholds[i+1].value) && level >= thresholds[i].value){
             
-            value = thresholds[i].color;
-            
+            return i;
             
         }
     }
-    return value;
+    
+}
+
+function findType(color, thresholds) {
+    for (let i = 0; i < thresholds.length; i++) {
+        if (color == thresholds[i].color) {
+            return thresholds[i].name;
+        }
+    }
+    return "Forest";
 }
 
