@@ -1,7 +1,7 @@
-const seed = 468745654;
+
 
 // limits for the sliders
-const maxSize = 20;
+const maxSize = 200;
 const minSize = 5;
 const maxArea = 60; 
 const minArea = 10;
@@ -31,12 +31,28 @@ let peopleList = document.querySelector('.peopleList');
 let placesList = document.querySelector('.placesList');
 
 
-let rdn = new SeededRandom(seed);
+
+let lighterTileX = 0;
+let lighterTileY = 0;
+
+let previousTileColor = "rgb(0,0,0)";
+let currentLighterTileColor = "rgb(0,0,0)";
+
+let selectedXIndex = 0;
+let selectedYIndex = 0;
+
+
 
 let mapData = new Map();
 let mapDisplayManager = new MapDisplayManager;
 let infoBox = new InfoBox(mapDisplayManager);
 mapDisplayManager.setInfoBoxReference(infoBox);
+
+
+setRandomMap();
+updateDisplay(mapData);
+
+
 
 
 

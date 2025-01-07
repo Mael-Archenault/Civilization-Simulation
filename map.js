@@ -1,3 +1,12 @@
+
+//----------------------------------------------------------------
+// Map Object (map data storage)
+//----------------------------------------------------------------
+
+
+
+
+
 class Map {
     constructor(size = 110, area = 110*110*0.45, forestPercent = 50){
 
@@ -17,7 +26,7 @@ class Map {
                 this.peopleMap[i][j] = new Array();
             }
         }
-        this.peopleMap[0][0].push({"name": "John"})
+        
         
     }
 
@@ -34,6 +43,10 @@ class Map {
         
     }
 }
+
+//----------------------------------------------------------------
+// Map Display Manager (zoom handling, map drawing, etc)
+//----------------------------------------------------------------
 
 class MapDisplayManager {
     constructor(){
@@ -67,7 +80,7 @@ class MapDisplayManager {
         this.initialX = (this.x -this.centerX)/this.scaleFactor + this.centerX;
         this.initialY = (this.y - this.centerY)/this.scaleFactor + this.centerY;
         this.infoBox.updateTargetPosition(move);
-        displayAll(); 
+        updateDisplay(mapData); 
     }
     handleZoom = (event)=>{    
         
@@ -106,7 +119,7 @@ class MapDisplayManager {
             
         }
 
-        displayAll(); // updating the canvas
+        updateDisplay(mapData); // updating the canvas
     }
     displayGrid(){
 
@@ -140,6 +153,9 @@ class MapDisplayManager {
     
 }
 
+//----------------------------------------------------------------
+// Information Box (to get data from a tile)
+//----------------------------------------------------------------
 
 class InfoBox{
     constructor(mapDisplayManager){
@@ -204,12 +220,6 @@ class InfoBox{
             }
             this.box.style.background = "linear-gradient(45deg,"+this.color+","+lighterTile(this.color)+")";
             
-            // if (this.targetType == "Sand"||this.targetType == "Peak"){
-            //     this.box.style.color = "rgb(50,50,50)";
-            // }
-            // else {
-            //     this.box.style.color = "white";
-            // }
             this.landType.textContent = this.targetType; 
             this.box.style.opacity = 1;
             peopleButton.classList.remove("active");

@@ -34,9 +34,9 @@ function setMap (){
 
     let size = Math.round(minSize + sizePercent *(maxSize-minSize)/100);
     let area = Math.round((size*size)*(minArea + areaPercent *(maxArea-minArea)/100)/100);
-    rdn = new SeededRandom(seedTextbox.value);
+    mapRandomizer = new SeededRandom(seedTextbox.value);
     mapData = new Map(size, area, forestPercent);
-    displayAll();
+    updateDisplay(mapData);
     
 }
 
@@ -62,7 +62,7 @@ function lerp(a, b, t) {
 }
 
 function randomGradient(ix, iy) {
-    const random = rdn.nextFloat(0,6) ;
+    const random = mapRandomizer.nextFloat(0,6) ;
     return {x: Math.cos(random), y: Math.sin(random)};
 }
 function dotGridGradient(ix, iy, x, y, vectors) {
@@ -234,7 +234,7 @@ function cropCorners(mapData){
     for (let y = 0; y < mapData.length; y++) {
         for (let x = 0; x < mapData[y].length; x++) {
             if (((x-mapData[0].length/2)/a)**2 + ((y-mapData.length/2)/b)**2 > 1) {
-                if (rdn.next()>0.4){
+                if (mapRandomizer.next()>0.4){
                     mapData[y][x] = 0;
                 }
             }
