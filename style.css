@@ -194,9 +194,9 @@ body .infoBox h2 {
 
 }
 body .infoBox h2:hover, body .infoBox h2.active:hover {
-    color : rgb(33, 34, 33);
+    /* color : rgb(33, 34, 33);
     background-color: rgb(93, 98, 96);
-    
+     */
     scale : 1.05;
 }
 
