@@ -52,7 +52,7 @@ mapDisplayManager.setInfoBoxReference(infoBox);
 setRandomMap();
 updateDisplay(mapData);
 
-mapData.peopleMap[0][0] = [new Human(),new Human(),new Human(),new Human(),new Human(), new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human()]
+mapData.peopleMap[20][20] = [new Human(),new Human(),new Human(),new Human(),new Human(), new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human()]
 
 
 

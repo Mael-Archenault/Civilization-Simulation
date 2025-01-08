@@ -1,22 +1,6 @@
 // Code by Keway
 
 //----------------------------------------------------------------
-// Initializations of elements variables
-//----------------------------------------------------------------
-
-//----------------------------------------------------------------
-// Class variables
-//----------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-//----------------------------------------------------------------
 // Display functions
 //----------------------------------------------------------------
 function updateDisplay(map){
@@ -135,10 +119,6 @@ fadeLine = (startX, startY, endX, endY, duration=10, type = "in")=>{
 // First display
 //----------------------------------------------------------------
 
-
-
-// let test = [new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human()];
-// mapData.peopleMap[0][0] = test;
 
 
 

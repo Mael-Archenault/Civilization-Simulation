@@ -37,6 +37,15 @@ class Map {
 
                 offscreenCtx.fillStyle = this.coloredMap[y][x];
                 offscreenCtx.fillRect(x0 + x*gridStep , y0 + y*gridStep, gridStep+1, gridStep+1);
+                if (this.peopleMap[x][y].length > 0){
+                    offscreenCtx.fillStyle = "rgb(255,255,255)";
+                    offscreenCtx.beginPath();    
+                    offscreenCtx.arc(x0 + x*gridStep +gridStep/2, y0 + y*gridStep + gridStep/2, gridStep/4,  Math.PI * 2, false);
+                    offscreenCtx.fillStyle = "red";
+                    offscreenCtx.fill();
+                    offscreenCtx.stroke();
+                    console.log("Test");
+                }
             }
         }
         tileCtx.drawImage(offscreenCanvas, 0, 0);
@@ -123,8 +132,8 @@ class MapDisplayManager {
     }
     displayGrid(){
 
-        tileCtx.fillStyle = 'red';
-        tileCtx.fillRect(this.x, this.y, mapDisplayManager.scaledGridStep, mapDisplayManager.scaledGridStep);
+        // tileCtx.fillStyle = 'red';
+        // tileCtx.fillRect(this.x, this.y, mapDisplayManager.scaledGridStep, mapDisplayManager.scaledGridStep);
         
         gridCtx.clearRect(0,0, window.innerWidth, window.innerHeight);
         gridCtx.globalAlpha = (this.scaleFactor - 0.1) / 9.9;
