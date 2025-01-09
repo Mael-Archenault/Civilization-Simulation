@@ -44,7 +44,6 @@ class Map {
                     offscreenCtx.fillStyle = "red";
                     offscreenCtx.fill();
                     offscreenCtx.stroke();
-                    console.log("Test");
                 }
             }
         }
@@ -93,7 +92,7 @@ class MapDisplayManager {
     }
     handleZoom = (event)=>{    
         
-        if (!isNaN(event.wheelDeltaY)&& onCanvas) {
+        if (!isNaN(event.wheelDeltaY)) {
             var delta = event.deltaY;
             // change the zoom according to the mouse wheel
             if (delta < 0){

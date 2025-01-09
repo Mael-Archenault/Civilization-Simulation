@@ -5,7 +5,7 @@
 document.addEventListener('mousedown', handleMouseDown);
 document.addEventListener('mousemove', handleMouseMove);
 document.addEventListener('mouseup', handleMouseUp);
-document.addEventListener("wheel", mapDisplayManager.handleZoom);
+document.addEventListener("wheel", handleZoom);
 document.addEventListener("mouseover", handleMouseOver);
 
 
@@ -14,9 +14,8 @@ document.addEventListener("mouseover", handleMouseOver);
 // Variables to track mouse state
 //----------------------------------------------------------------
 let isMouseDown = false;
-let onCanvas = true;
-let onInfoBox = false;
-let onSidebar = false;
+
+let onCanvas = false;
 
 let clickedOn;
 let hasMoved = false;
@@ -27,19 +26,11 @@ let startX, startY;
 // Handle Mouse Events
 //----------------------------------------------------------------
 function handleMouseDown(event) {
-    if (onSidebar){
-        clickedOn = "sidebar;"
-    }
-    else {
-        clickedOn = "canvas";
-    }
     isMouseDown = true;
     startX = event.clientX;
     startY = event.clientY;
 
-    tileCursor.style.transition = "none";
-    
-    
+    tileCursor.style.transition = "none"; 
 }
 
 function handleMouseMove(event) {
@@ -49,25 +40,9 @@ function handleMouseMove(event) {
     mapDisplayManager.mouseX = event.clientX;
     mapDisplayManager.mouseY = event.clientY;
 
-        
 
-    onSidebar = false;
-    // Check if the mouse is on the sidebar (we do not want to)
-    if (sidebar.classList[1]=="active"){
-        
-        if (event.clientX < sidebar.clientWidth){
-            onSidebar = true; 
-            onCanvas = false;
-        }
-    }
-    else {
-        if (event.clientX < sidebar.clientWidth && event.clientY < sidebar.clientHeight){
-            onSidebar = true;   
-            onCanvas = false;
-        }
-    }
     // transmit the mouse movement to the mapDisplayManager object
-    if (clickedOn=="canvas" && isMouseDown == true) {
+    if (isMouseDown == true) {
         const deltaX = event.clientX - startX;
         const deltaY = event.clientY - startY;
 
@@ -79,7 +54,10 @@ function handleMouseMove(event) {
             hasMoved = true;
         }
         // Do something with the mouse slide 
-        mapDisplayManager.updatePosition([deltaX, deltaY]);
+        if (onCanvas == true) {
+            mapDisplayManager.updatePosition([deltaX, deltaY]);
+        }
+        
     }
     updateDisplay(mapData);
     
@@ -88,16 +66,13 @@ function handleMouseMove(event) {
 
 function handleMouseUp() {
     if (isMouseDown == true){
-        if(onCanvas == true){
-            if (hasMoved == false){
-                infoBox.toggle(startX, startY);
-            }
-            hasMoved = false;
+        console.log(hasMoved, onCanvas);
+        if (hasMoved == false && onCanvas == true){
+            infoBox.toggle(startX, startY);
             
         }
-        if (clickedOn == "infoBox"){
-            infoBox.box.classList.toggle("grabbed")
-        }   
+
+        hasMoved = false;
         isMouseDown = false;
     }
     tileCursor.style.transition = "all 0.01s ease-in";
@@ -105,20 +80,19 @@ function handleMouseUp() {
 
 function handleMouseOver(event) {
     let object = event.target.classList[0];
-    
-    
-    
-    if ((object=="infoBox")&& infoBox.visible){
-        onInfoBox = true;
-        onCanvas = false;
-        onSidebar = false;        
-       
-    }
-    
-    else {
-        onInfoBox = false;
+    console.log(onCanvas, object);
+    if (object == "infoCanvas"|object == "selectionBox"){
         onCanvas = true;
+        console.log("test");
+    }
+    else {
+        onCanvas = false;
     }
     
 }
 
+function handleZoom(event) {
+    if (onCanvas == true){
+        mapDisplayManager.handleZoom(event);
+    }
+}

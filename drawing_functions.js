@@ -60,68 +60,6 @@ function extractRGBValues(colorString) {
     return rgbValues;
 }
 
-function drawEmptySquare(x, y, size, color, lineWidth = 1) {
-    infoCtx.strokeStyle = color; // Set the color of the square's outline
-    infoCtx.lineWidth = lineWidth; // Set the line width of the square's outline
-    infoCtx.strokeRect(x, y, size, size); // Draw the empty square
-}
-
-drawLineWithOpacity = (startX, startY, endX, endY, opacity)=>{
-    infoCtx.beginPath();
-    infoCtx.moveTo(startX, startY);
-    infoCtx.lineTo(endX, endY);
-    infoCtx.lineWidth = 8;
-    infoCtx.strokeStyle = `rgba(255,255,255, ${opacity})`; // Adjust color as needed
-    infoCtx.stroke();
-}
-fadeLine = (startX, startY, endX, endY, duration=10, type = "in")=>{
-    let startTime = null;
-    
-
-    animate =  (time)=>{
-        
-        if (!startTime) startTime = time;
-        const timeElapsed = time - startTime;
-        let opacity = 0;
-        if (type == "in"){
-            opacity = Math.min(timeElapsed / duration, 1)*MAX_LINK_ALPHA; // Ensure opacity is between 0 and 1
-            }   
-        else{
-            
-            opacity = (1 - Math.min(timeElapsed / duration, 1))*MAX_LINK_ALPHA; // Ensure opacity is between 0 and 1
-            
-        }
-
-        // Clear the canvas
-        infoCtx.clearRect(0, 0, infoCanvas.width, infoCanvas.height);
-
-        // Redraw the line with the new opacity
-        drawLineWithOpacity(startX, startY, endX, endY, opacity);
-
-        if (timeElapsed < duration) {
-            requestAnimationFrame(animate);
-        }
-    }
-
-    requestAnimationFrame(this.animate);
-    infoBox.visible = false;
-}
-
-
-//----------------------------------------------------------------
-// Window changes handler
-//----------------------------------------------------------------
-
-
-
-
-//----------------------------------------------------------------
-// First display
-//----------------------------------------------------------------
-
-
-
-
 
 
 

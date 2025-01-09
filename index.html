@@ -9,48 +9,85 @@
     <link rel="icon" href="data:,">
 </head>
 <body>
-
-    <div class = "sidebar">
-        <div class = "top">
-            <div class="title">
-                <span>Map Generator</span>
-            </div>
-            <i class = "bx bx-menu" id = "btn"></i>
-        </div>
-
+    <div class="sidebar-icons">
         <ul>
-            <li class="cursor">
-                
-                <span class="nav-item">Size</span>
-                <input type="range" min="0" max = "100" class="sizeSlider">
-            </li>
-            <li class="cursor">
-                
-                <span class="nav-item">Area</span>
-                <input type="range" min="0" max = "100" class="areaSlider">
-                
-            </li>
-            <li class="cursor">
-                
-                <span class="nav-item">Amount of forest</span>
-                <input type="range" min="0" max = "100" class="forestSlider">
-                
+            <li>
+                <i class = "bx bx-menu" id = "btn-home" title="Home"></i>
             </li>
 
             <li>
-                <span class="nav-item">Seed</span>
-                <input type="text" class="seedTextbox">
-                
+                <i class = "bx bx-world" id = "btn-map" title="Map Generation"></i>
             </li>
 
             <li>
-                <input type="button" class="generateButton" value = "Generate map">   
+                <i class = "bx bx-male-female" id = "btn-human" title="Human Generation"></i>
             </li>
 
             <li>
-                <input type="button" class="generateRandomButton" value = "Generate random map">   
+                <i class = "bx bx-play" id = "btn-simulation" title="Simulation"></i>
             </li>
+            
         </ul>
+    </div>
+    <div class = "sidebar-content">
+        <ul>
+            <li class="home-content"></li>
+            <li class="map-generation-content">
+                
+                <div class="title">
+                    <span>Map Generator</span>
+                </div>
+    
+        
+                <ul>
+                    <li class="cursor">
+                        
+                        <span class="nav-item">Size</span>
+                        <input type="range" min="0" max = "100" class="sizeSlider">
+                    </li>
+                    <li class="cursor">
+                        
+                        <span class="nav-item">Area</span>
+                        <input type="range" min="0" max = "100" class="areaSlider">
+                        
+                    </li>
+                    <li class="cursor">
+                        
+                        <span class="nav-item">Amount of forest</span>
+                        <input type="range" min="0" max = "100" class="forestSlider">
+                        
+                    </li>
+        
+                    <li>
+                        <span class="nav-item">Seed</span>
+                        <input type="text" class="seedTextbox">
+                        
+                    </li>
+        
+                    <li>
+                        <input type="button" class="generateButton" value = "Generate map">   
+                    </li>
+        
+                    <li>
+                        <input type="button" class="generateRandomButton" value = "Generate random map">   
+                    </li>
+                </ul>
+            </li>
+            <li class="human-generation-content">
+                <div class="title">
+                    <span>Human Generator</span>
+                </div>
+    
+        
+                <ul>
+                    <li>
+                        <input type="button" class="generateButton" value = "Generate Human">   
+                    </li>
+                </ul>
+            </li>
+            <li class="simulation-content"></li>
+        </ul>
+        
     </div>
     <div class="canvas-container">
             <canvas id="canvas" class="tileCanvas"></canvas>
@@ -82,16 +119,9 @@
     </div>
     <div class = "tileCursor">
     </div>
-    <script>
-        let btn = document.getElementById("btn");
-        const sidebar = document.querySelector(".sidebar");
+    
 
-        btn.onclick = function () {
-            sidebar.classList.toggle("active");
-        }
-    </script>
-
-
+    <script src="sidebar.js"></script>
     <!-- Constantes -->
     <script src="names.js"></script>
     <!-- Classes and functions Definitions -->
