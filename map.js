@@ -37,7 +37,7 @@ class Map {
 
                 offscreenCtx.fillStyle = this.coloredMap[y][x];
                 offscreenCtx.fillRect(x0 + x*gridStep , y0 + y*gridStep, gridStep+1, gridStep+1);
-                if (this.peopleMap[x][y].length > 0){
+                if (this.peopleMap[y][x].length > 0){
                     offscreenCtx.fillStyle = "rgb(255,255,255)";
                     offscreenCtx.beginPath();    
                     offscreenCtx.arc(x0 + x*gridStep +gridStep/2, y0 + y*gridStep + gridStep/2, gridStep/4,  Math.PI * 2, false);
@@ -178,7 +178,6 @@ class InfoBox{
         this.selectionBox = document.querySelector(".selectionBox");
 
         this.landType = this.box.querySelector(".landType");
-        this.box.style.opacity = 0;
         this.visible = false;
         this.color = "rgb(0,0,0)";
 
@@ -210,6 +209,9 @@ class InfoBox{
 
             selectedXIndex = pixelX;
             selectedYIndex = pixelY;
+            console.log(selectedXIndex, selectedYIndex);
+
+
 
 
 
@@ -229,17 +231,16 @@ class InfoBox{
             this.box.style.background = "linear-gradient(45deg,"+this.color+","+lighterTile(this.color)+")";
             
             this.landType.textContent = this.targetType; 
-            this.box.style.opacity = 1;
-            peopleButton.classList.remove("active");
-            placesButton.classList.remove("active");
+            this.box.style.right = "0px"
             this.visible = true;
-
-            
+            console.log("ouvert");
             
         }
+
         else {
-            this.box.style.opacity = 0;
+            this.box.style.right = "-400px";
             this.visible = false;
+            console.log("fermé");
             
         }
 

@@ -46,11 +46,11 @@
 .sidebar-content>ul>li {
     position : absolute;
     top : 0;
-    left: 80px;
+    left: -260px;
     height : 100%;
-    width : 0px;
+    width : 300px;
     background-color: rgb(40, 44, 43);
-    transition : all 0.5s ease;
+    transition : all 0.5s ease-in-out;
     z-index: 300;
     display : flex;
     flex-direction: column;  
@@ -58,7 +58,7 @@
 }
 
 .sidebar-content>ul>li.active {
-    width : 300px;
+    left : 80px;
     border-left : solid 1px rgb(155, 142, 142);
 }
 
@@ -110,26 +110,18 @@ body .canvas-container .infoCanvas {
 
 body .infoBox.main-container {
     position :absolute;
-    border-top-left-radius: 20px;
     color : white;
     font-size: 70%;
-    opacity:1;
     z-index: 300;
     user-select: none;
 
-    width: 30%;
+    width: 400px;
     height : 100%;
-    top: 0;
-    right: 0;
+    top: 0px;
+    right : -400px;
      
-    transition : opacity 0.7s ease, scale 0.5s ease, border-radius 1s ease;
+    transition : all 0.5s ease-in-out;
 }
-
-
-
-
-
-
 
 body .infoBox.landType {
     display : flex;
@@ -140,10 +132,6 @@ body .infoBox.landType {
     width: 100%;
     font-size : 40px;
     color :  rgb(10, 23, 11);
-    border: solid 5px white;
-    border-top-left-radius: 20px;
-
-    
     
 }
 
@@ -182,9 +170,6 @@ body .infoBox h2 {
 
 }
 body .infoBox h2:hover, body .infoBox h2.active:hover {
-    /* color : rgb(33, 34, 33);
-    background-color: rgb(93, 98, 96);
-     */
     scale : 1.05;
 }
 
@@ -195,11 +180,7 @@ body .infoBox h2.active{
     scale : 1.03;
     
 }
-/* body .infoBox h2:active, body .infoBox h2.active:active{
-    
-    scale : 1.05;
-    
-} */
+
 
 
 .infoBox .peopleList {

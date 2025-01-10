@@ -66,9 +66,10 @@ function handleMouseMove(event) {
 
 function handleMouseUp() {
     if (isMouseDown == true){
-        console.log(hasMoved, onCanvas);
         if (hasMoved == false && onCanvas == true){
+            
             infoBox.toggle(startX, startY);
+            setPeopleList(peopleList, mapData, selectedXIndex, selectedYIndex);
             
         }
 
@@ -80,10 +81,8 @@ function handleMouseUp() {
 
 function handleMouseOver(event) {
     let object = event.target.classList[0];
-    console.log(onCanvas, object);
     if (object == "infoCanvas"|object == "selectionBox"){
         onCanvas = true;
-        console.log("test");
     }
     else {
         onCanvas = false;

@@ -6,51 +6,6 @@
 var thresholds = [{value:0, color:"rgba(0,0,0,0)", name:"Water"},{value:10, color:"rgb(208,220,81)", name:"Sand"},{value:30, color: "rgb(136,93,81)", name:"Ground"},{value:50, color: "rgb(54,136,41)", name:"Grassland"},{value:200, color: "rgb(77,79,75)", name:"Mountain"},{value:240, color: "rgb(255,255,255)", name:"Peak"},{value:260, color: "rgb(255,255,255)", name:"Sky"}]
 
 
-//----------------------------------------------------------------
-// Elements variables
-//----------------------------------------------------------------
-const areaSlider = document.querySelector(".areaSlider");
-const sizeSlider = document.querySelector(".sizeSlider");
-const forestSlider = document.querySelector(".forestSlider");
-const seedTextbox = document.querySelector(".seedTextbox");
-const generateButton = document.querySelector(".generateButton");
-const generateRandomButton = document.querySelector(".generateRandomButton");
-
-//----------------------------------------------------------------
-// Elements functions
-//----------------------------------------------------------------
-generateButton.onclick = setMap;
-generateRandomButton.onclick = setRandomMap;
-
-//----------------------------------------------------------------
-// mapData setup functions
-//----------------------------------------------------------------
-
-function setMap (){
-    let sizePercent = sizeSlider.value;
-    let areaPercent = areaSlider.value;
-    let forestPercent = forestSlider.value;
-
-
-    let size = Math.round(minSize + sizePercent *(maxSize-minSize)/100);
-    let area = Math.round((size*size)*(minArea + areaPercent *(maxArea-minArea)/100)/100);
-    mapRandomizer = new SeededRandom(seedTextbox.value);
-    mapData = new Map(size, area, forestPercent);
-    updateDisplay(mapData);
-    
-}
-
-function setRandomMap (){
-    areaSlider.value = Math.random()*100;
-    sizeSlider.value = Math.random()*100;
-    seedTextbox.value = 10000+Math.floor(Math.random()*10000000);
-    setMap();
-}
-
-
-
-
-
 
 //----------------------------------------------------------------
 // Perlin Noise Generator

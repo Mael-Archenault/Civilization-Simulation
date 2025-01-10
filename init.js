@@ -1,10 +1,6 @@
 
 
-// limits for the sliders
-const maxSize = 200;
-const minSize = 5;
-const maxArea = 60; 
-const minArea = 10;
+
 
 
 
@@ -52,7 +48,6 @@ mapDisplayManager.setInfoBoxReference(infoBox);
 setRandomMap();
 updateDisplay(mapData);
 
-mapData.peopleMap[20][20] = [new Human(),new Human(),new Human(),new Human(),new Human(), new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human(),new Human()]
 
 
 
