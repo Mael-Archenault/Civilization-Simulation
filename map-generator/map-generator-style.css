@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* Resetting default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-family: "Roboto", sans-serif;
+    touch-action: none;
+
+}
+
+body .canvas-container {
+    position : absolute;
+    top : 0;
+    left :0;
+    z-index: 50;
+    
+
+}
+
+body .canvas-container .gridCanvas {
+    position : absolute;
+    top : 0;
+    left :0;
+    
+}
+body .canvas-container .infoCanvas {
+    position : absolute;
+    top : 0;
+    left :0;
+    
+}
+
+body .canvas-container .infoCanvas {
+    position : absolute;
+    top : 0;
+    left :0;
+    
+}
+
+
+body .infoBox.main-container {
+    display:none;
+}
+
+
+body .selectionBox {
+    position : absolute;
+    opacity : 0;
+    border: solid 1px white;
+    z-index: 250;
+    transition: opacity 0.5s ease;
+    border-radius: 5%;
+}
+
+body .tileCursor {
+    position : absolute;
+    width: 100px;
+    height : 100px;
+    background-color: rgba(255, 255,255,0.2);
+    z-index: 240;
+    transition: all 0.01s ease-in;
+    border-radius: 5%;
+    pointer-events: none;
+}
+.title {
+    font-size : 30px;
+    font-weight: 800;
+    padding : 20px 20px;
+    color: white;
+}
+.sidebar {
+    position : absolute;
+    top : 0px;
+    left : 0px;
+
+    width : 20%;
+    height : 100%;
+
+    background-color : rgb(40, 44, 43);
+    z-index: 300;
+    transition: all 0.5s ease;
+
+}
+
+.map-generation-settings {
+    display : flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.map-generation-settings>li {
+    font-size : 20px;
+    font-weight: 400;
+    padding : 10px;
+    color : white;
+}
+
+.landtype {
+    position: relative;
+    left:50%;
+    transform: translateX(-50%);
+    font-size : 30px;
+    font-weight: 800;
+    margin-top : 50px;
+    width : 80%;
+    height : 150px;
+    color : rgb(40, 44, 43);
+    border-radius: 20px;
+    background: rgb(70,70,70);
+
+    display : flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition : all 1s ease-in-out;
+}
+
+
+

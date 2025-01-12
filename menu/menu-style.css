@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* Resetting default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-family: "Roboto", sans-serif;
+    touch-action: none;
+
+}
+
+body {
+    background-color: rgb(16,143,198);
+}
+h1 {
+    position : absolute;
+    top : 0px;
+    left : 0px;
+    color : white;
+    font-size : 4rem;
+    
+    margin : 20px;
+}
+.map-cards {
+    position : absolute;
+    top : 15%;
+    left: 10%;
+    width : 80%;
+    height : 80%;
+    display: flex;
+    justify-content : space-evenly;
+    align-items: center;
+}
+
+.map-cards>li {
+    background-color: rgba(255, 255, 255, 0.2);
+    height :80%;
+    width : 30%;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+.map-cards>li:hover {
+    scale : 1.02;
+}
+
+.map-cards>li i {
+    font-size : 8rem;
+    color : white;
+    background-color : rgba(255, 255, 255, 0.2);
+    border-radius : 50%;
+    transition: all 0.2s ease-in-out;
+}
+
+.map-cards>li i:hover {
+    scale : 1.1;
+}
+
+.bg-img {
+    position: absolute;
+    top : 0px;
+    left: 0px;
+    width: 100;
+    height: 100%;
+
+}
+
+.help-icon {
+    position : absolute;
+    bottom : 20px;
+    left : 20px;
+    font-size : 4rem;
+    color : white;
+    cursor : pointer;
+}
+
+.help-content {
+    position : absolute;
+    top : 100%;
+    left : 50%;
+    transform: translateX(-50%);
+    background-color : rgba(0, 0, 0, 0.8);
+    color : white;
+    padding : 20px;
+    width : 300px;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+.help-content.visible {
+    top: 50%;
+    transform: translateY(-50%),translateX(-50%);
+
+}
+
+
+.account-container {
+    position : absolute;
+    top : 20px;
+    right : 20px;
+    font-size : 20px;
+    color : white;
+    cursor : pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.account-container i {
+    font-size : 5rem;
+}
+
+.account-container p {
+    background-color: rgba(255, 255, 255, 0.2);
+    margin : 5px;
+    padding : 5px;
+    width : 100%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.account-container p:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+
+.map-generator {
+    position : absolute;
+    top : 100%;
+    left: 0px;
+
+    height : 100%;
+    width : 100%;
+
+    background-color: rgb(40, 44, 43);;
+
+    transition : all 0.5s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-generator .inner-page {
+    width: 90%;
+    height : 90%;
+}
+
+.map-generator.visible {
+    top : 0px;
+}
+
+.validation {
+    position: absolute;
+    top : 50%;
+    right : 0px;
+    transform: translateY(-50%);
+    font-size : 5rem;
+    color : white;
+
+    display : flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: space-evenly;
+
+    margin-right : 0.5%;
+
+    z-index:300;
+}
+
+
+.validation>i {
+    border-radius: 20px;
+    margin-top : 100px;
+    margin-bottom : 100px;
+}
+.validation>i:hover {
+    background-color: rgba(255, 255,255,0.2);
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title>Civilisation Simulation</title>
+    <link rel="stylesheet" href="map-generator-style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" href="data:,">
+</head>
+<body>
+    
+    <div class="canvas-container">
+            <canvas id="canvas" class="tileCanvas"></canvas>
+            <canvas id="canvas" class="gridCanvas"></canvas>
+            <canvas id="canvas" class="infoCanvas"></canvas>
+    </div>
+    <div class = "selectionBox">
+    </div>
+    <div class = "tileCursor">
+    </div>
+    
+    <div class="sidebar">
+        <div class="title">
+            <span>Map Generation</span>
+        </div>
+        <ul class="map-generation-settings">
+            
+            <li class="cursor">
+                
+                <span class="nav-item">Size</span>
+                <input type="range" min="0" max = "100" class="sizeSlider">
+            </li>
+            <li class="cursor">
+                
+                <span class="nav-item">Area</span>
+                <input type="range" min="0" max = "100" class="areaSlider">
+                
+            </li>
+            <li class="cursor">
+                
+                <span class="nav-item">Amount of forest</span>
+                <input type="range" min="0" max = "100" class="forestSlider">
+                
+            </li>
+
+            <li>
+                <span class="nav-item">Seed</span>
+                <input type="text" class="seedTextbox">
+                
+            </li>
+
+            <li>
+                <input type="button" class="generateButton" value = "Generate map">   
+            </li>
+
+            <li>
+                <input type="button" class="generateRandomButton" value = "Generate random map">   
+            </li>
+        </ul>
+        <div class="landtype">
+            <p>No tile selected</p>
+        </div>
+        
+    </div>
+    
+    <!-- Classes and functions Definitions -->
+    <script src="map-mg.js"></script>
+    <script src="random-mg.js"></script>
+
+    <script src="drawingFunctions-mg.js"></script>
+
+    <!-- Initialization -->
+    <script src="mapGeneration-mg.js"></script>
+
+    <script src="generationSettings-mg.js"></script>
+
+    <script src="init-mg.js"></script>
+    
+   <!-- Real-Time Interactions -->
+   
+    <script src="mouseEvents-mg.js"></script>
+    <script src="mapInteraction-mg.js"></script>
+
+    
+</body>
+
+
+</html>
