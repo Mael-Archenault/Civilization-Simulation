@@ -26,21 +26,24 @@
         </div>
         <ul class="map-generation-settings">
             
-            <li class="cursor">
+            <li>
                 
                 <span class="nav-item">Size</span>
-                <input type="range" min="0" max = "100" class="sizeSlider">
+                <input type="range" min="0" max = "100" class="size-slider">
+                <input type="text" class="size-value boxValue">
             </li>
-            <li class="cursor">
+            <li>
                 
                 <span class="nav-item">Area</span>
-                <input type="range" min="0" max = "100" class="areaSlider">
+                <input type="range" min="0" max = "100" class="area-slider">
+                <input type="text" class="area-value boxValue">
                 
             </li>
-            <li class="cursor">
+            <li>
                 
-                <span class="nav-item">Amount of forest</span>
-                <input type="range" min="0" max = "100" class="forestSlider">
+                <span class="nav-item">Forest</span>
+                <input type="range" min="0" max = "100" class="forest-slider">
+                <input type="text" class="forest-value boxValue">
                 
             </li>
 
@@ -48,10 +51,6 @@
                 <span class="nav-item">Seed</span>
                 <input type="text" class="seedTextbox">
                 
-            </li>
-
-            <li>
-                <input type="button" class="generateButton" value = "Generate map">   
             </li>
 
             <li>

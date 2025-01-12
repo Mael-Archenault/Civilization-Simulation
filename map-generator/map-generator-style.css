@@ -85,17 +85,21 @@ body .tileCursor {
 
 }
 
-.map-generation-settings {
-    display : flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .map-generation-settings>li {
     font-size : 20px;
     font-weight: 400;
     padding : 10px;
     color : white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.boxValue {
+    width : 50px;
+    height : 30px;
+    border-radius: 10px;
+    text-align : center;
 }
 
 .landtype {
