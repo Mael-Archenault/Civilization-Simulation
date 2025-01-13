@@ -1,46 +1,25 @@
+import express from 'express';
+import { getAccount, getAccounts} from './database.js';
+
+const app = express();
+
+app.use(express.static("public"))
+
+app.get("/accounts", async (req, res) => {
+    const accounts = await getAccounts()
+    res.send(accounts)
+})
 
 
 
-const express = require('express');
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong')
+})
 
 
+app.listen(8080, ()=>{
+    console.log('Server is running on port 8080')
+})
 
-
-
-
-
-
-
-
-
-
-
-// const http = require('http');
-// const fs = require('fs');
-// const port = 3000;
-
-
-// const server = http.createServer(function (req, res) {
-//     res.writeHead(200, { 'Content-Type': 'text/html' });
-//     fs.readFile('index.html', function (err, data) {
-//         if (err) {
-//             res.writeHead(404);
-//             res.write('Error : file not found');
-//         }
-//         else {
-//             res.write(data);
-            
-//         }
-//         res.end();    
-//     });
-// });
-
-// server.listen(port, function (error){
-//     if (error){
-//         console.log("Something went wrong", error);
-//     }
-//     else {
-//         console.log(`Server is running on port ${port}`);
-//     }
-   
-// })
+const test = 1
