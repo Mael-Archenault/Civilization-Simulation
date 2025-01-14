@@ -10,22 +10,20 @@ const pool = mysql.createPool({
 }).promise()
 
 
-export async function getAccounts(){
-const [rows] = await pool.query("SELECT * FROM accounts")
+export async function getUsers(){
+const [rows] = await pool.query("SELECT * FROM users")
     return rows
 }
 
-export async function getAccount(id){
-    const [row] = await pool.query("SELECT * FROM accounts WHERE id = ?", [id])
+export async function getUser(username){
+    const [row] = await pool.query("SELECT * FROM users WHERE username = ?", [username])
     return row[0]
 }
 
-export async function createAccount(name, age){
+export async function createUser(username, password){
 
     try {
-        const [result] = await pool.query("INSERT INTO accounts (name, age) VALUES (?,?)", [name, age])
-        const id = result.insertId
-        console.log("Account created", id)
+        const [result] = await pool.query("INSERT INTO users (username, password) VALUES (?,?)", [username, password])
     }
     catch (err) {
         console.error(err)
