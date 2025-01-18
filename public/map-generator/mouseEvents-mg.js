@@ -68,7 +68,7 @@ function handleMouseUp() {
     if (isMouseDown == true){
         if (hasMoved == false && onCanvas == true){
             
-            target.toggle(startX, startY);
+            target.setPosition(startX, startY);
                 
         }
 

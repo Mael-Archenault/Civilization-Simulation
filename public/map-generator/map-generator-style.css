@@ -48,10 +48,9 @@ body .infoBox.main-container {
 
 body .selectionBox {
     position : absolute;
-    opacity : 0;
     border: solid 1px white;
     z-index: 250;
-    transition: opacity 0.5s ease;
+    transition : opacity 0.5s ease-in-out;
     border-radius: 5%;
 }
 
@@ -90,9 +89,15 @@ body .tileCursor {
     font-weight: 400;
     padding : 10px;
     color : white;
+
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+}
+
+.map-generation-settings>li * {
+    margin-left: 8px;
+    margin-right: 8px;
 }
 
 .boxValue {
@@ -124,3 +129,24 @@ body .tileCursor {
 
 
 
+.generateRandomButton {
+    width : 80%;
+    height : 50px;
+
+    background-color: #4CAF50; /* Matching green with a soft tone */
+    color: white; /* White text for contrast */
+    font-size: 16px; /* Readable font size */
+    font-weight: bold; /* Bold for emphasis */
+    border: none; /* No border for a clean look */
+    border-radius: 5px; /* Slight rounding for modern design */
+    padding: 10px 20px; /* Comfortable padding for usability */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    cursor: pointer; /* Pointer cursor to indicate it's clickable */
+    transition: all 0.3s ease;
+}
+
+.generateRandomButton:hover {
+    background-color: #45A049; /* Slightly darker green on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow for hover effect */
+    transform: translateY(-2px); /* Subtle lift effect */
+}

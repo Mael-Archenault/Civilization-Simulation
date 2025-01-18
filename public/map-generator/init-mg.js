@@ -44,7 +44,10 @@ let mapDisplayManager = new MapDisplayManager;
 let target = new Target(mapDisplayManager);
 mapDisplayManager.setTargetReference(target);
 updateDisplay(mapData);
-setRandomMap();
+setMap();
+
+
+
 
 
 

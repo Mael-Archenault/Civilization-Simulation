@@ -18,16 +18,37 @@ const MGCseedTextbox = document.querySelector(".seedTextbox");
 const MGCgenerateRandomButton = document.querySelector(".generateRandomButton");
 
 
+MGCareaSlider.value = 22;
+MGCsizeSlider.value = 36;
+MGCforestSlider.value = 43;
+
+MGCareaValue.value = 22;
+MGCsizeValue.value = 36;
+MGCforestValue.value = 43;
+
+MGCseedTextbox.value = 15;
+
+
+function getKeys (){
+    return {
+        area: MGCareaSlider.value,
+        size: MGCsizeSlider.value,
+        forest: MGCforestSlider.value,
+        seed: MGCseedTextbox.value
+    }
+}
+
+
 function setMap (){
     let sizePercent = MGCsizeSlider.value;
     let areaPercent = MGCareaSlider.value;
     let forestPercent = MGCforestSlider.value;
 
-    console.log("Test");
     let size = Math.round(minSize + sizePercent *(maxSize-minSize)/100);
     let area = Math.round((size*size)*(minArea + areaPercent *(maxArea-minArea)/100)/100);
     mapRandomizer = new SeededRandom(MGCseedTextbox.value);
     mapData = new Map(size, area, forestPercent);
+    mapDisplayManager.centerMap(mapData);
     updateDisplay(mapData);
     
 }
@@ -70,5 +91,9 @@ MGCsizeValue.addEventListener('change', (event) => {
 
 MGCforestValue.addEventListener('change', (event) => {
     MGCforestSlider.value = event.target.value;
+    setMap();
+});
+
+MGCseedTextbox.addEventListener('change', (event) => {
     setMap();
 });

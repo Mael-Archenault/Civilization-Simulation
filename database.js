@@ -31,6 +31,28 @@ export async function createUser(username, password){
 }
 
 
+export async function createMap(keys, userId){
+    const size = keys.size
+    const area = keys.area
+    const forest = keys.forest
+    const seed = keys.seed
+
+    try {
+        const [result] = await pool.query("INSERT INTO maps (userid, size, area, forest, seed) VALUES (?,?,?,?,?)", [userId, size, area, forest, seed])
+    }
+    catch (err) {
+        console.error(err)
+    }
+}
+
+export async function getMaps(userId){
+    const [rows] = await pool.query("SELECT * FROM maps WHERE userid = ?", [userId])
+    return rows
+}
+
+
+
+
 
 
 

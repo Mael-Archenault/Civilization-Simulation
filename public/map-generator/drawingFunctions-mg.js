@@ -11,7 +11,7 @@ function updateDisplay(map){
         fillCanvas("rgb(16,143,198)"); // background color
         map.displayMap(mapDisplayManager.x, mapDisplayManager.y, mapDisplayManager.scaledGridStep); // display tiles of the mapData
         mapDisplayManager.displayGrid();
-        target.displaySelected();
+        target.displaySelected(moveEase=false);
         displayLighterTile();
         
     })

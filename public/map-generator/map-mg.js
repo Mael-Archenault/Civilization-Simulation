@@ -80,9 +80,9 @@ class MapDisplayManager {
         this.target = null;
     }
     setTargetReference(target){
-        this.target = target
-        ;
+        this.target = target;
     }
+
     updatePosition(move) { // Update the position of the origin according to the mouse movement
         this.x += move[0];
         this.y += move[1];
@@ -91,6 +91,36 @@ class MapDisplayManager {
         this.target.updateTargetPosition(move);
         updateDisplay(mapData); 
     }
+
+    centerMap = (map)=>{
+        this.scaleFactor = window.innerWidth*0.6/(map.width*this.initialGridStep);
+
+        this.initialX = this.centerX - map.width*this.initialGridStep/2
+        this.initialY = this.centerY - map.height*this.initialGridStep/2
+        
+
+        // updating every "scaled version" variables
+        this.scaledGridStep = this.initialGridStep*this.scaleFactor;
+        this.x = (this.initialX -this.centerX)*this.scaleFactor + this.centerX;
+        this.y = (this.initialY - this.centerY)*this.scaleFactor + this.centerY;
+
+        //updating the scaled version tile linked with target
+
+
+        this.target.targetX = -100;
+        this.target.targetY = -100;
+        
+        this.target.targetType = "No Tile Selected";
+        this.target.color = "rgb(70,70,70)";
+
+        this.target.selectionBox.style.opacity = "0";
+        this.target.visible = false;
+        
+        updateDisplay(mapData); // updating the canvas
+        
+    }
+
+
     handleZoom = (event)=>{    
         
         if (!isNaN(event.wheelDeltaY)) {
@@ -184,6 +214,8 @@ class Target{
         this.mapDisplayManager = mapDisplayManager
 
     }
+
+
     updateTargetPosition = (move)=>{
         this.targetX += move[0];
         this.targetY += move[1];
@@ -192,58 +224,41 @@ class Target{
 
     }
     
-    toggle = (x,y)=>{
+    setPosition = (x,y)=>{
 
+       
         if (this.visible == false){
-
-            this.targetX = this.mapDisplayManager.x + Math.floor((x-this.mapDisplayManager.x)/this.mapDisplayManager.scaledGridStep)*this.mapDisplayManager.scaledGridStep + this.mapDisplayManager.scaledGridStep/2;
-            this.targetY = this.mapDisplayManager.y + Math.floor((y-this.mapDisplayManager.y)/this.mapDisplayManager.scaledGridStep)*this.mapDisplayManager.scaledGridStep + this.mapDisplayManager.scaledGridStep/2;
-
-            this.updateNonZoomedPosition();
-            
-
-            let pixelX =Math.floor((this.targetX - this.mapDisplayManager.x)/this.mapDisplayManager.scaledGridStep);
-            let pixelY = Math.floor((this.targetY - this.mapDisplayManager.y)/this.mapDisplayManager.scaledGridStep);
-
-            selectedXIndex = pixelX;
-            selectedYIndex = pixelY;
-            console.log(selectedXIndex, selectedYIndex);
-
-
-
-
-
-            
-
-            if (pixelX >= 0 &&pixelX < mapData.coloredMap[0].length && pixelY>= 0 && pixelY < mapData.coloredMap.length){   
-                this.color = mapData.coloredMap[pixelY][pixelX]
-                this.targetType = findType(this.color, thresholds);
-            }
-            else {
-                this.color = "rgb(16,143,198)";
-                this.targetType = "Water";
-            }
-            if (this.color == "rgba(0,0,0,0)"){
-                this.color = "rgb(16,143,198)";
-            }
-            this.previewBox.style.background = this.color;
-            
-            this.previewBox.textContent = this.targetType; 
-            // this.box.style.right = "0px"
+            this.selectionBox.style.opacity = "1";
             this.visible = true;
-            
         }
+        this.targetX = this.mapDisplayManager.x + Math.floor((x-this.mapDisplayManager.x)/this.mapDisplayManager.scaledGridStep)*this.mapDisplayManager.scaledGridStep + this.mapDisplayManager.scaledGridStep/2;
+        this.targetY = this.mapDisplayManager.y + Math.floor((y-this.mapDisplayManager.y)/this.mapDisplayManager.scaledGridStep)*this.mapDisplayManager.scaledGridStep + this.mapDisplayManager.scaledGridStep/2;
 
+        this.updateNonZoomedPosition();
+        
+
+        let pixelX =Math.floor((this.targetX - this.mapDisplayManager.x)/this.mapDisplayManager.scaledGridStep);
+        let pixelY = Math.floor((this.targetY - this.mapDisplayManager.y)/this.mapDisplayManager.scaledGridStep);
+
+        selectedXIndex = pixelX;
+        selectedYIndex = pixelY;
+        console.log(selectedXIndex, selectedYIndex);
+        
+
+        if (pixelX >= 0 &&pixelX < mapData.coloredMap[0].length && pixelY>= 0 && pixelY < mapData.coloredMap.length){   
+            this.color = mapData.coloredMap[pixelY][pixelX]
+            this.targetType = findType(this.color, thresholds);
+        }
         else {
-            this.visible = false;
-            this.previewBox.style.background = "rgb(70,70,70)";
-            this.previewBox.textContent = "No tile selected";
-            
+            this.color = "rgb(16,143,198)";
+            this.targetType = "Water";
+        }
+        if (this.color == "rgba(0,0,0,0)"){
+            this.color = "rgb(16,143,198)";
         }
 
-        this.displaySelected();
-        
-        
+        this.displaySelected(moveEase=true);
+
     
     }
 
@@ -252,22 +267,32 @@ class Target{
         this.initialY = (this.targetY - this.mapDisplayManager.centerY)/this.mapDisplayManager.scaleFactor + this.mapDisplayManager.centerY;
     }
 
-    displaySelected = ()=>{
-        if (this.visible == true){
-            
-            this.selectionBox.style.width = this.mapDisplayManager.scaledGridStep+'px';
-            this.selectionBox.style.height = this.mapDisplayManager.scaledGridStep+'px';
-            
+    displaySelected = (moveEase)=>{
+        
+        
+        this.selectionBox.style.width = this.mapDisplayManager.scaledGridStep+'px';
+        this.selectionBox.style.height = this.mapDisplayManager.scaledGridStep+'px';
 
-            this.selectionBox.style.top = (this.targetY-this.mapDisplayManager.scaledGridStep/2)+'px';
-            this.selectionBox.style.left = (this.targetX-this.mapDisplayManager.scaledGridStep/2)+'px';
-
-            this.selectionBox.style.borderWidth = this.mapDisplayManager.scaledGridStep/10 + 'px';
-            this.selectionBox.style.opacity = 1;
+        if (moveEase==true){
+            this.selectionBox.style.transition = "all 0.2s ease-in-out, opacity 0.5s ease-in-out";
         }
-
         else {
-            this.selectionBox.style.opacity = 0;
+            this.selectionBox.style.transition = "opacity 0.5s ease-in-out";
+            
         }
+
+        this.selectionBox.style.top = (this.targetY-this.mapDisplayManager.scaledGridStep/2)+'px';
+        this.selectionBox.style.left = (this.targetX-this.mapDisplayManager.scaledGridStep/2)+'px';
+        
+
+       
+        this.selectionBox.style.borderWidth = this.mapDisplayManager.scaledGridStep/8 + 'px';
+
+
+        this.previewBox.style.background = this.color;
+        this.previewBox.textContent = this.targetType; 
+    
+
+        
     }
 }
