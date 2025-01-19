@@ -12,18 +12,26 @@
     <img src="./menu/img/menu-bg-img.png" class="bg-img">
     <h1 class="title">Civilization Simulation</h1>
     <ul class="map-cards">
-        <li class="map1">
-            <i class = "bx bx-plus map-generator-button1" title="New Map"></i>
-        </li>
-        <li class="map2">
-            <i class = "bx bx-plus map-generator-button2" title="New Map"></i>
-        </li>
-        <li class="map3">
-            <i class = "bx bx-plus map-generator-button3" title="New Map"></i>
-        </li>
-        <li class="map4">
-            <p> <%= maps %></p>
-        </li>
+        <% if (maps!=null) { %>
+            <% let cardNumber = maps.length; %>
+        <% for (let i = 1; i <=Math.min(cardNumber+1, 3); i++) { %>
+            
+            <% if (i == cardNumber+1) { %>
+                <li class="map<%=i%> empty">
+                    <i class="bx bx-plus map-generator-button<%=i%>" title="New Map"></i>
+                </li>
+            <% } else { %>
+                <li class="map<%=i%> full">
+                    <h1>Map Name</h1>
+                    <iframe src="./map-preview/map-preview.html?data=<%-encodeURIComponent(JSON.stringify(maps[i-1])) %>" frameborder="0"></iframe>
+                    <div class="actions">
+                        <i class="bx bx-trash delete" title="Delete Map"></i>
+                        <i class="bx bx-info-circle info" title="Show infos"></i>
+                    </div>
+                </li>
+            <% } %>
+        <% } %>
+        <% } %>
     </ul>
 
     <i class = "bx bx-help-circle help-icon" title="Help"></i>

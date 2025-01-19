@@ -1,6 +1,6 @@
 
 // limits for the sliders
-const maxSize = 200;
+const maxSize = 100;
 const minSize = 5;
 const maxArea = 60; 
 const minArea = 10;

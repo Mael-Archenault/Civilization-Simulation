@@ -15,24 +15,34 @@ let mapGeneratorBtn3 = document.querySelector(".map-generator-button3");
 
 let mapGeneratorContent = document.querySelector(".map-generator");
 
-mapGeneratorBtn1.addEventListener("click", () => {
+if (mapGeneratorBtn1!=null){
+  mapGeneratorBtn1.addEventListener("click", () => {
     mapGeneratorContent.classList.toggle("visible");
 });
+}
 
-mapGeneratorBtn2.addEventListener("click", () => {
+if (mapGeneratorBtn2!=null){
+  mapGeneratorBtn2.addEventListener("click", () => {
     mapGeneratorContent.classList.toggle("visible");
 });
+}
 
-mapGeneratorBtn3.addEventListener("click", () => {
+if (mapGeneratorBtn3!=null){
+  mapGeneratorBtn3.addEventListener("click", () => {
     mapGeneratorContent.classList.toggle("visible");
 });
+}
 
 
 ////////////////////////////////////////////////
 
 
-
+let cancelButton = mapGeneratorContent.querySelector(".cancel");
 let saveButton = mapGeneratorContent.querySelector(".save");
+
+cancelButton.addEventListener("click", () => {
+    mapGeneratorContent.classList.toggle("visible");
+});
 
 saveButton.addEventListener("click", () => {
     
@@ -65,5 +75,5 @@ saveButton.addEventListener("click", () => {
 });
 
 let mapGeneratorFrame = document.querySelector(".inner-page").contentWindow;
-console.log(mapGeneratorFrame);
+
 

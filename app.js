@@ -122,17 +122,6 @@ app.post("/save",authenticateToken, async (req, res) => {
     
 })
 
-// app.get("/maps", authenticateToken, async (req, res) => {
-//     if (req.user==null) {
-//         res.redirect("/login")
-//     }
-//     else {
-//         let userId = req.user.id
-//         let maps = await getMaps(userId)
-//         res.render("index.ejs", {maps: maps})
-//     }
-// })
-
 
 
 function generateAccessToken(user) {
