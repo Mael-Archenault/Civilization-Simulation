@@ -49,7 +49,7 @@ saveButton.addEventListener("click", () => {
     mapGeneratorContent.classList.toggle("visible");
     keys = mapGeneratorFrame.getKeys();
 
-    fetch("/save", {
+    fetch("/map/save", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -77,3 +77,35 @@ saveButton.addEventListener("click", () => {
 let mapGeneratorFrame = document.querySelector(".inner-page").contentWindow;
 
 
+////////////////////////////////////////////////
+
+let deleteButtons = document.querySelectorAll(".delete");
+
+deleteButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    mapId = button.getAttribute("data-id");
+    fetch("/map/delete", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({mapId: mapId})
+    })
+    .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        if (response.redirected) {
+            window.location.href = response.url; // Navigate to the redirected URL
+          }
+        return response; // Parse JSON response
+      })
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+  })
+})

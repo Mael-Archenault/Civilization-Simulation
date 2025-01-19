@@ -45,6 +45,15 @@ export async function createMap(keys, userId){
     }
 }
 
+export async function deleteMap(mapId){
+    try {
+        const [result] = await pool.query("DELETE FROM maps WHERE id = ?", [mapId])
+    }
+    catch (err) {
+        console.error(err)
+    }
+}
+
 export async function getMaps(userId){
     const [rows] = await pool.query("SELECT * FROM maps WHERE userid = ?", [userId])
     return rows

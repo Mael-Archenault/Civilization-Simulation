@@ -25,7 +25,7 @@
                     <h1>Map Name</h1>
                     <iframe src="./map-preview/map-preview.html?data=<%-encodeURIComponent(JSON.stringify(maps[i-1])) %>" frameborder="0"></iframe>
                     <div class="actions">
-                        <i class="bx bx-trash delete" title="Delete Map"></i>
+                        <i class="bx bx-trash delete" title="Delete Map" data-id=<%=  maps[i-1].id%>></i>
                         <i class="bx bx-info-circle info" title="Show infos"></i>
                     </div>
                 </li>

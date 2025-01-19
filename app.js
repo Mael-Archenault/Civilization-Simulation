@@ -1,6 +1,6 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import {getUser, getUsers, createUser, createMap, getMaps} from './database.js';
+import {getUser, getUsers, createUser, createMap, deleteMap, getMaps} from './database.js';
 
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
@@ -109,7 +109,7 @@ app.post("/logout", (req, res) => {
     res.redirect("/home")
 });
 
-app.post("/save",authenticateToken, async (req, res) => {
+app.post("/map/save",authenticateToken, async (req, res) => {
 
     if (req.user==null) {
         res.redirect("/login")
@@ -121,6 +121,21 @@ app.post("/save",authenticateToken, async (req, res) => {
     }
     
 })
+
+app.post("/map/delete",authenticateToken, async (req, res) => {
+
+    if (req.user==null) {
+        res.redirect("/login")
+    }
+    else {
+        await deleteMap(req.body.mapId)
+        console.log("Deleted")
+        res.redirect("/home")
+    }
+    
+})
+
+
 
 
 
