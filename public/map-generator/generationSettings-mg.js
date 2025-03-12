@@ -13,6 +13,9 @@ const MGCforestSlider = document.querySelector(".forest-slider");
 const MGCareaValue = document.querySelector(".area-value");
 const MGCsizeValue = document.querySelector(".size-value");
 const MGCforestValue = document.querySelector(".forest-value");
+
+
+const MGCnameTextbox = document.querySelector(".nameTextbox");
 const MGCseedTextbox = document.querySelector(".seedTextbox");
 
 const MGCgenerateRandomButton = document.querySelector(".generateRandomButton");
@@ -31,6 +34,7 @@ MGCseedTextbox.value = 15;
 
 function getKeys (){
     return {
+        name : MGCnameTextbox.value,
         area: MGCareaSlider.value,
         size: MGCsizeSlider.value,
         forest: MGCforestSlider.value,

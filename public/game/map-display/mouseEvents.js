@@ -68,7 +68,7 @@ function handleMouseUp() {
     if (isMouseDown == true){
         if (hasMoved == false && onCanvas == true){
             
-            infoBox.toggle(startX, startY);
+            target.setPosition(startX, startY);
             setPeopleList(peopleList, mapData, selectedXIndex, selectedYIndex);
             
         }

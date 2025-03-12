@@ -1,7 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import {getUser, getUsers, createUser, createMap, deleteMap, getMaps} from './database.js';
-
+import pako from "pako"
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 dotenv.config();
@@ -136,6 +136,13 @@ app.post("/map/delete",authenticateToken, async (req, res) => {
 })
 
 
+app.post("/game/:code", authenticateToken, (req, res) => {
+    const keys = decodeData(req.params.code)
+    console.log(keys)
+    res.render("game.ejs", {t_keys: keys})
+})
+
+
 
 
 
@@ -148,4 +155,30 @@ function generateAccessToken(user) {
 app.listen(8080, ()=>{
     console.log('Server is running on port 8080')
 })
+
+
+
+
+
+
+function encodeData(data){
+
+    let jsonData = JSON.stringify(data)
+    console.log(jsonData)
+    let base64Data = btoa(jsonData)
+    
+    return base64Data
+
+}
+
+function decodeData(data){
+    let jsonData = atob(data)
+    let decodedData = JSON.parse(jsonData)
+    return decodedData
+}
+
+let test = {
+    "keys": [1,2,3,4,5],
+    "values": [1,2,3,4,5]
+}
 

@@ -11,72 +11,6 @@
 
 }
 
-.sidebar-icons {
-    position : absolute;
-    top : 0px;
-    left : 0px;
-
-    width : 80px;
-    height : 100%;
-
-    z-index: 310;
-    background-color : rgb(40, 44, 43);
-   
-    
-
-
-}
-
-.sidebar-icons li {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    color : white ; 
-    font-size : 4rem;
-    padding-top : 10px;   
-    padding-bottom : 10px;
-    
-}
-
-.sidebar-icons li:hover {
-    background-color: rgb(78, 85, 83);
-}
-
-
-.sidebar-content>ul>li {
-    position : absolute;
-    top : 0;
-    left: -260px;
-    height : 100%;
-    width : 300px;
-    background-color: rgb(40, 44, 43);
-    transition : all 0.5s ease-in-out;
-    z-index: 300;
-    display : flex;
-    flex-direction: column;  
-    color : white;
-}
-
-.sidebar-content>ul>li.active {
-    left : 80px;
-    border-left : solid 1px rgb(155, 142, 142);
-}
-
-.sidebar-content>ul>li .title {
-    font-size : 30px;
-    font-weight: 800;
-    padding : 20px 20px;
-}
-
-.sidebar-content>ul>li li {
-    font-size : 20px;
-    font-weight: 400;
-    padding : 10px 10px;
-    display:flex;
-    justify-content: space-evenly;
-
-}
-
 
 body .canvas-container {
     position : absolute;
@@ -118,7 +52,7 @@ body .infoBox.main-container {
     width: 400px;
     height : 100%;
     top: 0px;
-    right : -400px;
+    right: 0px;
      
     transition : all 0.5s ease-in-out;
 }
@@ -132,6 +66,7 @@ body .infoBox.landType {
     width: 100%;
     font-size : 40px;
     color :  rgb(10, 23, 11);
+    transition : all 0.5s ease-in-out;
     
 }
 
@@ -168,64 +103,63 @@ body .infoBox h2 {
     border-bottom-left-radius: 5px;
     transition : all 0.6s ease;
 
+    &:hover {
+        scale: 1.05;
+    }
+
 }
-body .infoBox h2:hover, body .infoBox h2.active:hover {
-    scale : 1.05;
-}
+
 
 body .infoBox h2.active{
     width : 80%;
     color :rgb(33, 34, 33);
     background-color: rgb(125, 131, 129);
     scale : 1.03;
+    &:hover {
+        scale:1.05;
+    }
     
 }
 
 
 
 .infoBox .peopleList {
-    width : 90%;
+    width : 80%;
     max-height: 0px;
     transition : max-height 0.5s ease-in-out;
-    overflow: auto;
-    
+    overflow-y: auto;
+    li{
+        margin : 0.5rem 0.9rem;
+        padding: 5px 10px;
+        border-radius : 9px;
+        color : rgb(240,240,240);
+        background-color: rgb(40,44,43);
+        transition : background-color .2s ease-in-out;
+        &:hover{
+            color : rgb(255,255,255);
+            font-weight : bold;
+            background-color: rgb(20, 21, 21);
+        }
+    }
 }
 
 .infoBox .peopleList.visible {
     max-height: 300px;
-    
-    
 }
 
-.infoBox .peopleList::-webkit-scrollbar {
-    width: 10px;  /* Set the width of the vertical scrollbar */
+
+/* .infoBox .peopleList::-webkit-scrollbar {
+    width: 100px;  
     display : none;
 }
-
 .infoBox .peopleList::-webkit-scrollbar-thumb {
-    background-color: rgb(98, 102, 98);  /* Set the color of the scroll thumb */
-    border-radius: 10px;  /* Set the border radius of the scroll thumb */
+    background-color: rgb(98, 102, 98);  
+    border-radius: 100px;  
 }
 
 .infoBox .peopleList::-webkit-scrollbar-track {
-    background-color: rgb(29, 29, 34);  /* Set the color of the scroll track */
-}
-
-body .infoBox .peopleList li{
-    margin : 0.5rem 0.9rem;
-    padding: 5px 10px;
-    border-radius : 9px;
-    color : rgb(240,240,240);
-    background-color: rgb(40,44,43);
-    transition : background-color .2s ease-in-out;
-}
-
-body .infoBox .peopleList li:hover{
-    color : rgb(255,255,255);
-    font-weight : bold;
-    background-color: rgb(20, 21, 21);
-    
-}
+    background-color: red;  
+} */
 
 .infoBox .category-container {
     display: flex;
@@ -237,6 +171,7 @@ body .infoBox .peopleList li:hover{
 
 }
 
+/* Selection of tile */
 
 body .selectionBox {
     position : absolute;
@@ -257,4 +192,9 @@ body .tileCursor {
     border-radius: 5%;
     pointer-events: none;
 }
+
+
+
+
+
 

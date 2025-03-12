@@ -12,8 +12,8 @@ function updateDisplay(map){
         map.displayMap(mapDisplayManager.x, mapDisplayManager.y, mapDisplayManager.scaledGridStep); // display tiles of the mapData
         mapDisplayManager.displayGrid();
         displayLighterTile();
-        if (infoBox.visible == true){
-            infoBox.displaySelected(); // display
+        if (target.visible == true){
+            target.displaySelected(moveEase = false); // display
         }
         
     })

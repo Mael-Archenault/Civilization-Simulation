@@ -8,11 +8,11 @@
 
 
 class Map {
-    constructor(size = 110, area = 110*110*0.45, forestPercent = 50){
+    constructor(size = 110, area = 110*110*0.45, forestPercent = 50, randomizer){
 
-        this.heightLevelMap = generateMap(size, size, area);
+        this.heightLevelMap = generateMap(size, size, area, randomizer);
         this.labelledMap = labelMap(this.heightLevelMap, thresholds)
-        this.forestMap = generateForestMap(size, size, thresholds);
+        this.forestMap = generateForestMap(size, size, thresholds, randomizer);
 
         this.coloredMap = colorMap(this.labelledMap, this.forestMap, (1-forestPercent/100)*255, thresholds); // convert heights of the mapData to colors
 
@@ -77,17 +77,17 @@ class MapDisplayManager {
         this.mouseX = 0;
         this.mouseY = 0;
 
-        this.infoBox = null;
+        this.target = null;
     }
-    setInfoBoxReference(infoBox){
-        this.infoBox = infoBox;
+    setTargetReference(target){
+        this.target = target;
     }
     updatePosition(move) { // Update the position of the origin according to the mouse movement
         this.x += move[0];
         this.y += move[1];
         this.initialX = (this.x -this.centerX)/this.scaleFactor + this.centerX;
         this.initialY = (this.y - this.centerY)/this.scaleFactor + this.centerY;
-        this.infoBox.updateTargetPosition(move);
+        this.target.updateTargetPosition(move);
         updateDisplay(mapData); 
     }
     handleZoom = (event)=>{    
@@ -119,8 +119,8 @@ class MapDisplayManager {
 
             //updating the scaled version tile linked with infobox
 
-            this.infoBox.targetX = (infoBox.initialX -this.centerX)*this.scaleFactor + this.centerX;
-            this.infoBox.targetY = (infoBox.initialY - this.centerY)*this.scaleFactor + this.centerY;
+            this.target.targetX = (this.target.initialX -this.centerX)*this.scaleFactor + this.centerX;
+            this.target.targetY = (this.target.initialY - this.centerY)*this.scaleFactor + this.centerY;
 
 
 
@@ -165,7 +165,7 @@ class MapDisplayManager {
 // Information Box (to get data from a tile)
 //----------------------------------------------------------------
 
-class InfoBox{
+class Target{
     constructor(mapDisplayManager){
         this.x = 0;
         this.y = 0;
@@ -194,59 +194,41 @@ class InfoBox{
 
     }
     
-    toggle = (x,y)=>{
+    setPosition = (x,y)=>{
 
+       
         if (this.visible == false){
-
-            this.targetX = this.mapDisplayManager.x + Math.floor((x-this.mapDisplayManager.x)/this.mapDisplayManager.scaledGridStep)*this.mapDisplayManager.scaledGridStep + this.mapDisplayManager.scaledGridStep/2;
-            this.targetY = this.mapDisplayManager.y + Math.floor((y-this.mapDisplayManager.y)/this.mapDisplayManager.scaledGridStep)*this.mapDisplayManager.scaledGridStep + this.mapDisplayManager.scaledGridStep/2;
-
-            this.updateNonZoomedPosition();
-            
-
-            let pixelX =Math.floor((this.targetX - this.mapDisplayManager.x)/this.mapDisplayManager.scaledGridStep);
-            let pixelY = Math.floor((this.targetY - this.mapDisplayManager.y)/this.mapDisplayManager.scaledGridStep);
-
-            selectedXIndex = pixelX;
-            selectedYIndex = pixelY;
-            console.log(selectedXIndex, selectedYIndex);
-
-
-
-
-
-            
-
-            if (pixelX >= 0 &&pixelX < mapData.coloredMap[0].length && pixelY>= 0 && pixelY < mapData.coloredMap.length){   
-                this.color = mapData.coloredMap[pixelY][pixelX]
-                this.targetType = findType(this.color, thresholds);
-            }
-            else {
-                this.color = "rgb(16,143,198)";
-                this.targetType = "Water";
-            }
-            if (this.color == "rgba(0,0,0,0)"){
-                this.color = "rgb(16,143,198)";
-            }
-            this.box.style.background = "linear-gradient(45deg,"+this.color+","+lighterTile(this.color)+")";
-            
-            this.landType.textContent = this.targetType; 
-            this.box.style.right = "0px"
+            this.selectionBox.style.opacity = "1";
             this.visible = true;
-            console.log("ouvert");
-            
         }
+        this.targetX = this.mapDisplayManager.x + Math.floor((x-this.mapDisplayManager.x)/this.mapDisplayManager.scaledGridStep)*this.mapDisplayManager.scaledGridStep + this.mapDisplayManager.scaledGridStep/2;
+        this.targetY = this.mapDisplayManager.y + Math.floor((y-this.mapDisplayManager.y)/this.mapDisplayManager.scaledGridStep)*this.mapDisplayManager.scaledGridStep + this.mapDisplayManager.scaledGridStep/2;
 
+        this.updateNonZoomedPosition();
+        
+
+        let pixelX =Math.floor((this.targetX - this.mapDisplayManager.x)/this.mapDisplayManager.scaledGridStep);
+        let pixelY = Math.floor((this.targetY - this.mapDisplayManager.y)/this.mapDisplayManager.scaledGridStep);
+
+        selectedXIndex = pixelX;
+        selectedYIndex = pixelY;
+        console.log(selectedXIndex, selectedYIndex);
+        
+
+        if (pixelX >= 0 &&pixelX < mapData.coloredMap[0].length && pixelY>= 0 && pixelY < mapData.coloredMap.length){   
+            this.color = mapData.coloredMap[pixelY][pixelX]
+            this.targetType = findType(this.color, thresholds);
+        }
         else {
-            this.box.style.right = "-400px";
-            this.visible = false;
-            console.log("fermé");
-            
+            this.color = "rgb(16,143,198)";
+            this.targetType = "Water";
+        }
+        if (this.color == "rgba(0,0,0,0)"){
+            this.color = "rgb(16,143,198)";
         }
 
-        this.displaySelected();
-        
-        
+        this.displaySelected(true);
+
     
     }
 
@@ -255,22 +237,28 @@ class InfoBox{
         this.initialY = (this.targetY - this.mapDisplayManager.centerY)/this.mapDisplayManager.scaleFactor + this.mapDisplayManager.centerY;
     }
 
-    displaySelected = ()=>{
-        if (this.visible == true){
-            
-            this.selectionBox.style.width = this.mapDisplayManager.scaledGridStep+'px';
-            this.selectionBox.style.height = this.mapDisplayManager.scaledGridStep+'px';
-            
+    displaySelected = (moveEase)=>{
+        this.selectionBox.style.width = this.mapDisplayManager.scaledGridStep+'px';
+        this.selectionBox.style.height = this.mapDisplayManager.scaledGridStep+'px';
 
-            this.selectionBox.style.top = (this.targetY-this.mapDisplayManager.scaledGridStep/2)+'px';
-            this.selectionBox.style.left = (this.targetX-this.mapDisplayManager.scaledGridStep/2)+'px';
-
-            this.selectionBox.style.borderWidth = this.mapDisplayManager.scaledGridStep/10 + 'px';
-            this.selectionBox.style.opacity = 1;
+        if (moveEase==true){
+            this.selectionBox.style.transition = "all 0.2s ease-in-out, opacity 0.5s ease-in-out";
         }
-
         else {
-            this.selectionBox.style.opacity = 0;
+            this.selectionBox.style.transition = "opacity 0.5s ease-in-out";
+            
         }
+
+        this.selectionBox.style.top = (this.targetY-this.mapDisplayManager.scaledGridStep/2)+'px';
+        this.selectionBox.style.left = (this.targetX-this.mapDisplayManager.scaledGridStep/2)+'px';
+        
+
+       
+        this.selectionBox.style.borderWidth = this.mapDisplayManager.scaledGridStep/8 + 'px';
+
+
+        this.landType.style.background = this.color;
+        this.landType.textContent = this.targetType; 
+    
     }
 }

@@ -26,7 +26,5 @@ class SeededRandom {
 
 const seed = 468745654;
 
-let mapRandomizer = new SeededRandom(seed);
-let humanRandomizer = new SeededRandom(seed*4);
 
 

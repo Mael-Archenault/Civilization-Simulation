@@ -22,11 +22,19 @@
                 </li>
             <% } else { %>
                 <li class="map<%=i%> full">
-                    <h1>Map Name</h1>
+                    <h1><%= maps[i-1].name%></h1>
                     <iframe src="./map-preview/map-preview.html?data=<%-encodeURIComponent(JSON.stringify(maps[i-1])) %>" frameborder="0"></iframe>
                     <div class="actions">
-                        <i class="bx bx-trash delete" title="Delete Map" data-id=<%=  maps[i-1].id%>></i>
-                        <i class="bx bx-info-circle info" title="Show infos"></i>
+                        <div class="actions-l">
+                            <% console.log(maps[i-1]) %>
+                            <a href="./game/game.html?data=<%-encodeURIComponent(JSON.stringify(maps[i-1]))%>" >
+                                <i class="bx bx-play play" title="Show infos"></i>
+                            </a>
+                            <i class="bx bx-info-circle info" title="Show infos"></i>
+                        </div>
+                        <div class="actions-r">
+                            <i class="bx bx-trash delete" title="Delete Map" data-id=<%=  maps[i-1].id%>></i>
+                        </div>
                     </div>
                 </li>
             <% } %>

@@ -36,9 +36,10 @@ export async function createMap(keys, userId){
     const area = keys.area
     const forest = keys.forest
     const seed = keys.seed
+    const name = keys.name
 
     try {
-        const [result] = await pool.query("INSERT INTO maps (userid, size, area, forest, seed) VALUES (?,?,?,?,?)", [userId, size, area, forest, seed])
+        const [result] = await pool.query("INSERT INTO maps (userid, size, area, forest, seed, name) VALUES (?,?,?,?,?, ?)", [userId, size, area, forest, seed, name])
     }
     catch (err) {
         console.error(err)

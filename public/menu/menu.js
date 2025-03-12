@@ -8,7 +8,7 @@ helpBtn.addEventListener("click", () => {
 });
 
 
-
+///////////////// To rewrite (with a for loop) ///////////////////////
 let mapGeneratorBtn1 = document.querySelector(".map-generator-button1");
 let mapGeneratorBtn2 = document.querySelector(".map-generator-button2");
 let mapGeneratorBtn3 = document.querySelector(".map-generator-button3");
@@ -46,7 +46,6 @@ cancelButton.addEventListener("click", () => {
 
 saveButton.addEventListener("click", () => {
     
-    mapGeneratorContent.classList.toggle("visible");
     keys = mapGeneratorFrame.getKeys();
 
     fetch("/map/save", {
@@ -109,3 +108,24 @@ deleteButtons.forEach(button => {
 
   })
 })
+
+
+
+
+
+function encodeData(data){
+
+    let jsonData = JSON.stringify(data)
+    let compressedData = pako.deflate(jsonData, {to:"string"})
+    let base64Data = btoa(compressedData)
+    
+    return base64Data
+
+}
+
+function decodeData(data){
+    let compressedData = (atob(data).split(",")).map(x => parseInt(x))
+    let jsonData = pako.inflate(compressedData, {to:"string"})
+    let decodedData = JSON.parse(jsonData)
+    return decodedData
+}

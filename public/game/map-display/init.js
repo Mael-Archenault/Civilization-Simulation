@@ -39,14 +39,14 @@ let selectedYIndex = 0;
 
 
 
-let mapData = new Map();
+let mapData = new Map(110, 110*110*0.45, 50, mapRandomizer);
 let mapDisplayManager = new MapDisplayManager;
-let infoBox = new InfoBox(mapDisplayManager);
-mapDisplayManager.setInfoBoxReference(infoBox);
+let target = new Target(mapDisplayManager);
+mapDisplayManager.setTargetReference(target);
 
 
-setRandomMap();
-updateDisplay(mapData);
+// setMap(mapRandomizer);
+// updateDisplay(mapData);
 
 
 

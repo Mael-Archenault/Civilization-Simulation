@@ -1,10 +1,4 @@
 
-
-let genderPossiblity = ["male", "female"];
-
-categories = ['Underweight', 'Normal weight', 'Overweight', 'Obesity I', 'Obesity II', 'Obesity III']
-values = [10, 50, 30, 6, 3, 1]
-
 randomIMC = (randomizer)=>{
     let value = randomizer.nextInt(0,100);
     if (value<10){
@@ -54,12 +48,12 @@ function boxMullerTransform() {
 
 
 class Human {
-    constructor() {
+    constructor(randomizer) {
         // long-time changing characteristics
         this.age = 0;
-        this.sex = genderPossiblity[humanRandomizer.nextInt(0,1)];
-        this.name = names[this.sex][humanRandomizer.nextInt(0, names[this.sex].length-1)];
-        this.IMC = randomIMC(humanRandomizer);
+        this.sex = genderPossibility[randomizer.nextInt(0,1)];
+        this.name = names[this.sex][randomizer.nextInt(0, names[this.sex].length-1)];
+        this.IMC = randomIMC(randomizer);
         this.height = randomHeight(this.sex);
         this.weight = this.IMC*(this.height/100)**2; //
         
@@ -69,28 +63,29 @@ class Human {
         this.y = 0;
 
         // short-time changing characteristics
-        this.health = 100;
-        this.hunger = 100;
-        this.thirst = 100;
-        this.energy = 100;
-        this.happiness = 100;
-        this.sleep = 100;
-        this.stress = 100;
-        this.sickness = 100;
+        for (let i = 0; i < states.length; i++) {
+            this[states[i]] = 100;
+        }
+
 
         // skills
 
-        this.sociabilityPoints = 100;
-        this.intelligencePoints = 100;
-        this.agriculturePoints = 100;
-        this.huntingPoints = 100;
-        this.gatheringPoints = 100;
-        this.fightPoints = 100;
-        this.medicinePoints = 100;
-        this.craftingPoints = 100;
+        for (let i=0; i< skills.length; i++) {
+            this[skills[i]] = 100;
+        }
+    }
+    toString = ()=>{
+        return "Name: " + this.name + "\n" + "Age: " + this.age + "\n"
+    }
 
+    setCharacteristics = (object)=>{
+        for (let characteristic in object){
+            this[characteristic] = object[characteristic];
+        }
     }
     
 }
 
+
+let humanRandomizer = new SeededRandom(seed*4);
 
