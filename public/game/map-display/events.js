@@ -9,6 +9,17 @@ document.addEventListener("wheel", handleZoom);
 document.addEventListener("mouseover", handleMouseOver);
 
 
+window.addEventListener("resize", ()=>{
+    display.updateDisplay(display.mapData);
+});
+
+
+
+
+
+
+
+
 
 //----------------------------------------------------------------
 // Variables to track mouse state
@@ -30,18 +41,18 @@ function handleMouseDown(event) {
     startX = event.clientX;
     startY = event.clientY;
 
-    tileCursor.style.transition = "none"; 
+    display.tileCursor.style.transition = "none"; 
 }
 
 function handleMouseMove(event) {
 
     // managing to lighten the tile where the mouse is pointing to
 
-    mapDisplayManager.mouseX = event.clientX;
-    mapDisplayManager.mouseY = event.clientY;
+    display.mapOrigin.mouseX = event.clientX;
+    display.mapOrigin.mouseY = event.clientY;
 
 
-    // transmit the mouse movement to the mapDisplayManager object
+    // transmit the mouse movement to the mapOrigin object
     if (isMouseDown == true) {
         const deltaX = event.clientX - startX;
         const deltaY = event.clientY - startY;
@@ -55,11 +66,11 @@ function handleMouseMove(event) {
         }
         // Do something with the mouse slide 
         if (onCanvas == true) {
-            mapDisplayManager.updatePosition([deltaX, deltaY]);
+            display.updateMapPosition([deltaX, deltaY]);
         }
         
     }
-    updateDisplay(mapData);
+    display.updateDisplay(display.mapData);
     
 }
 
@@ -68,15 +79,15 @@ function handleMouseUp() {
     if (isMouseDown == true){
         if (hasMoved == false && onCanvas == true){
             
-            target.setPosition(startX, startY);
-            setPeopleList(peopleList, mapData, selectedXIndex, selectedYIndex);
+            display.target.setPosition(startX, startY, display.mapData);
+            setPeopleList(display.mapData, display.target.pixelX, display.target.pixelY);
             
         }
 
         hasMoved = false;
         isMouseDown = false;
     }
-    tileCursor.style.transition = "all 0.01s ease-in";
+    display.tileCursor.style.transition = "all 0.01s ease-in";
 }
 
 function handleMouseOver(event) {
@@ -92,6 +103,6 @@ function handleMouseOver(event) {
 
 function handleZoom(event) {
     if (onCanvas == true){
-        mapDisplayManager.handleZoom(event);
+        display.handleZoom(event);
     }
 }

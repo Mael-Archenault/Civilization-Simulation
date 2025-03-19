@@ -218,15 +218,20 @@ function generateMap(width, height, area, randomizer) {
 
 
     let innerMap = generateOctavePerlinNoise(Math.round(6*width/8), Math.round(6*height/8), Math.round(width/8), octaves, persistence, randomizer);
+
+    
     
     innerMap = normalizeArray(innerMap);
     innerMap = cropCorners(innerMap, randomizer);
+
+    
 
     for (let y = 0; y < innerMap.length ; y++) {
         for (let x = 0; x < innerMap[y].length; x++) {
             complexMap[y+Math.round(height/8)][x+Math.round(width/8)] = innerMap[y][x];
         }
     }
+
     
     for (let y = 0; y < 4; y++) {
         complexMap = normalizeArray(complexMap);
@@ -237,6 +242,8 @@ function generateMap(width, height, area, randomizer) {
     complexMap = adjustArea(complexMap, area, thresholds[1].value);
     
     complexMap = normalizeArray(complexMap);
+
+
     
     return complexMap;
 }

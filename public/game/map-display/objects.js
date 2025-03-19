@@ -1,9 +1,196 @@
+class Display {
+    constructor() {
+        this.offscreenCanvas = document.createElement("canvas");
+        this.tileCanvas = document.querySelector(".tileCanvas");
+        this.gridCanvas = document.querySelector(".gridCanvas");
+        this.infoCanvas = document.querySelector(".infoCanvas");
 
+        this.tileCursor = document.querySelector(".tileCursor");
+
+        this.offscreenCanvas.setAttribute("width", window.innerWidth);
+        this.offscreenCanvas.setAttribute("height", window.innerHeight);
+        this.tileCanvas.setAttribute("width", window.innerWidth);
+        this.tileCanvas.setAttribute("height", window.innerHeight);
+        this.gridCanvas.setAttribute("width", window.innerWidth);
+        this.gridCanvas.setAttribute("height", window.innerHeight);
+        this.infoCanvas.setAttribute("width", window.innerWidth);
+        this.infoCanvas.setAttribute("height", window.innerHeight);
+
+        this.tileCtx = this.tileCanvas.getContext('2d');
+        this.offscreenCtx = this.offscreenCanvas.getContext('2d');
+        this.gridCtx = this.gridCanvas.getContext('2d');
+        this.infoCtx = this.infoCanvas.getContext('2d');
+
+        this.lighterTileX = 0;
+        this.lighterTileY = 0;
+
+        this.previousTileColor = "rgb(0,0,0)";
+        this.currentLighterTileColor = "rgb(0,0,0)";
+
+        this.selectedXIndex = 0;
+        this.selectedYIndex = 0;
+
+        this.mapData = new Map(110, 110 * 110 * 0.45, 50, mapRandomizer);
+        this.mapOrigin = new MapOrigin;
+
+        this.target = new SelectedTileBox(this.mapOrigin);
+        this.mapOrigin.setTargetReference(this.target);
+
+        this.centerMap(this.mapData)
+        
+    }
+
+    updateDisplay = (map)=>{
+    
+        requestAnimationFrame(()=>{
+            
+
+            // deleting previous display
+            this.tileCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+            // filling the background with the blue color
+            this.tileCtx.fillStyle = "rgb(16,143,198)";
+            this.tileCtx.fillRect(0,0,window.innerWidth, window.innerHeight);
+
+
+            // displaying the map tiles
+            this.displayMap(map,this.mapOrigin, this.tileCtx); // display tiles of the mapData
+            this.displayGrid(this.mapOrigin,this.gridCtx);
+            this.displayLighterTile();
+            if (this.target.visible == true){
+                this.target.displaySelected(false); // display
+            }
+            
+        })
+        
+    }
+    
+    displayLighterTile = ()=>{
+        let newX = Math.floor((this.mapOrigin.mouseX - this.mapOrigin.x)/this.mapOrigin.scaledGridStep);
+        let newY = Math.floor((this.mapOrigin.mouseY - this.mapOrigin.y)/this.mapOrigin.scaledGridStep);
+        
+        this.lighterTileX = newX;
+        this.lighterTileY = newY;
+    
+        this.tileCursor.style.left = this.mapOrigin.x +this.lighterTileX*this.mapOrigin.scaledGridStep + 'px';
+        this.tileCursor.style.top = this.mapOrigin.y + this.lighterTileY*this.mapOrigin.scaledGridStep + 'px';
+    
+        this.tileCursor.style.width = this.mapOrigin.scaledGridStep +'px';
+        this.tileCursor.style.height = this.mapOrigin.scaledGridStep + 'px';
+    }
+    
+    lighterTile = (initialColor)=>{
+        if (initialColor == "rgba(0,0,0,0)"){
+            return initialColor;
+        }
+        if (initialColor == "rgb(255,255,255)"){
+            return "rgb(150,150,150)";
+        }
+        let color = extractRGBValues(initialColor);
+        for (let i=0; i<3; i++){
+            color[i] = Math.min(255, color[i] + 60);
+        }
+        return `rgb(${color[0]},${color[1]},${color[2]})`;
+    
+    }
+    extractRGBValues=(colorString)=>{
+        // Remove the 'rgb(' and ')' parts, then split by comma
+        let values = colorString.replace('rgb(', '').replace(')', '').split(',');
+        // Convert each string in the array to a number
+        let rgbValues = values.map(value => parseInt(value.trim(), 10));
+        return rgbValues;
+    }
+
+
+    displayMap = (map,mapOrigin, context)=> {
+
+        let x0 = mapOrigin.x
+        let y0 = mapOrigin.y
+        let gridStep = mapOrigin.scaledGridStep
+        this.offscreenCtx.clearRect(0, 0, this.offscreenCanvas.width, this.offscreenCanvas.height);
+        for (let y=0;y<map.height;y++){
+            for(let x=0; x<map.width;x++){
+
+
+                // Drawing the tile color
+                this.offscreenCtx.fillStyle = map.coloredMap[y][x]; 
+                this.offscreenCtx.fillRect(x0 + x*gridStep , y0 + y*gridStep, gridStep+1, gridStep+1);
+
+
+
+                if (map.peopleMap[y][x].length > 0){
+                    // Drawing a human on the tile
+                    this.offscreenCtx.fillStyle = "rgb(255,255,255)";
+                    this.offscreenCtx.beginPath();    
+                    this.offscreenCtx.arc(x0 + x*gridStep +gridStep/2, y0 + y*gridStep + gridStep/2, gridStep/4,  Math.PI * 2, false);
+                    this.offscreenCtx.fillStyle = "red";
+                    this.offscreenCtx.fill();
+                    this.offscreenCtx.stroke();
+                }
+            }
+        }
+        context.drawImage(this.offscreenCanvas, 0, 0);
+        
+    }
+
+
+    displayGrid(mapOrigin, context){
+
+        // tileCtx.fillStyle = 'red';
+        // tileCtx.fillRect(this.x, this.y, mapOrigin.scaledGridStep, mapOrigin.scaledGridStep);
+        
+        context.clearRect(0,0, window.innerWidth, window.innerHeight);
+        context.globalAlpha = (mapOrigin.scaleFactor - 0.1) / 9.9;
+        context.strokeStyle = 'black';
+        context.lineWidth = 2;
+        for (let i = mapOrigin.x % mapOrigin.scaledGridStep; i < window.innerWidth; i += mapOrigin.scaledGridStep) {
+
+            context.beginPath();
+            context.moveTo(i, 0);
+            context.lineTo(i, window.innerHeight);
+
+            // Draw the line
+            context.stroke();
+        }
+        for (let i = mapOrigin.y % mapOrigin.scaledGridStep; i < window.innerHeight; i += mapOrigin.scaledGridStep) {
+
+            context.beginPath();
+            context.moveTo(0, i);
+            context.lineTo(window.innerWidth, i);
+
+            // Draw the line
+            context.stroke();
+        }
+        context.globalAlpha = 1;
+        }
+
+    handleZoom = (event) => {
+        this.mapOrigin.handleZoom(event);
+        this.updateDisplay(this.mapData);
+    }
+
+    updateMapPosition = (move) => {
+        this.mapOrigin.updatePosition(move);
+        this.target.updateTargetPosition(move);
+        this.updateDisplay(this.mapData);
+
+        
+    }
+
+    centerMap = (map) => {
+        this.mapOrigin.centerMap(map);
+        this.updateDisplay(this.mapData);
+    }
+    
+    
+    
+    
+}
+
+// Other classes and functions remain the same, just replace "let" with "this."
 //----------------------------------------------------------------
 // Map Object (map data storage)
 //----------------------------------------------------------------
-
-
 
 
 
@@ -29,34 +216,13 @@ class Map {
         
         
     }
-
-    displayMap = (x0,y0, gridStep)=> {
-        offscreenCtx.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
-        for (let y=0;y<this.height;y++){
-            for(let x=0; x<this.width;x++){
-
-                offscreenCtx.fillStyle = this.coloredMap[y][x];
-                offscreenCtx.fillRect(x0 + x*gridStep , y0 + y*gridStep, gridStep+1, gridStep+1);
-                if (this.peopleMap[y][x].length > 0){
-                    offscreenCtx.fillStyle = "rgb(255,255,255)";
-                    offscreenCtx.beginPath();    
-                    offscreenCtx.arc(x0 + x*gridStep +gridStep/2, y0 + y*gridStep + gridStep/2, gridStep/4,  Math.PI * 2, false);
-                    offscreenCtx.fillStyle = "red";
-                    offscreenCtx.fill();
-                    offscreenCtx.stroke();
-                }
-            }
-        }
-        tileCtx.drawImage(offscreenCanvas, 0, 0);
-        
-    }
 }
 
 //----------------------------------------------------------------
 // Map Display Manager (zoom handling, map drawing, etc)
 //----------------------------------------------------------------
 
-class MapDisplayManager {
+class MapOrigin {
     constructor(){
         this.initialX = 500;
         this.initialY = 100;
@@ -76,6 +242,7 @@ class MapDisplayManager {
 
         this.mouseX = 0;
         this.mouseY = 0;
+        
 
         this.target = null;
     }
@@ -87,8 +254,7 @@ class MapDisplayManager {
         this.y += move[1];
         this.initialX = (this.x -this.centerX)/this.scaleFactor + this.centerX;
         this.initialY = (this.y - this.centerY)/this.scaleFactor + this.centerY;
-        this.target.updateTargetPosition(move);
-        updateDisplay(mapData); 
+
     }
     handleZoom = (event)=>{    
         
@@ -127,138 +293,42 @@ class MapDisplayManager {
             
         }
 
-        updateDisplay(mapData); // updating the canvas
+        // updateDisplay(mapData); // updating the canvas
     }
-    displayGrid(){
 
-        // tileCtx.fillStyle = 'red';
-        // tileCtx.fillRect(this.x, this.y, mapDisplayManager.scaledGridStep, mapDisplayManager.scaledGridStep);
+    centerMap = (map)=>{
+        this.scaleFactor = window.innerWidth*0.6/(map.width*this.initialGridStep);
+
+        this.initialX = this.centerX - map.width*this.initialGridStep/2
+        this.initialY = this.centerY - map.height*this.initialGridStep/2
         
-        gridCtx.clearRect(0,0, window.innerWidth, window.innerHeight);
-        gridCtx.globalAlpha = (this.scaleFactor - 0.1) / 9.9;
-        gridCtx.strokeStyle = 'black';
-        gridCtx.lineWidth = 2;
-        for (let i = this.x % this.scaledGridStep; i < window.innerWidth; i += this.scaledGridStep) {
 
-            gridCtx.beginPath();
-            gridCtx.moveTo(i, 0);
-            gridCtx.lineTo(i, window.innerHeight);
+        // updating every "scaled version" variables
+        this.scaledGridStep = this.initialGridStep*this.scaleFactor;
+        this.x = (this.initialX -this.centerX)*this.scaleFactor + this.centerX;
+        this.y = (this.initialY - this.centerY)*this.scaleFactor + this.centerY;
 
-            // Draw the line
-            gridCtx.stroke();
-        }
-        for (let i = this.y % this.scaledGridStep; i < window.innerHeight; i += this.scaledGridStep) {
+        //updating the scaled version tile linked with target
 
-            gridCtx.beginPath();
-            gridCtx.moveTo(0, i);
-            gridCtx.lineTo(window.innerWidth, i);
 
-            // Draw the line
-            gridCtx.stroke();
-        }
-        gridCtx.globalAlpha = 1;
-        }
+        // this.target.targetX = -100;
+        // this.target.targetY = -100;
+        
+        // this.target.targetType = "No Tile Selected";
+        // this.target.color = "rgb(70,70,70)";
+
+        // this.target.selectionBox.style.opacity = "0";
+        // this.target.visible = false;
+        
+        
+    }
+
+
+    
     
 }
 
-//----------------------------------------------------------------
-// Information Box (to get data from a tile)
-//----------------------------------------------------------------
-
-class Target{
-    constructor(mapDisplayManager){
-        this.x = 0;
-        this.y = 0;
-        this.initialX = 0;
-        this.initialY = 0;
-        this.targetX = 0;
-        this.targetY = 0;
-        this.targetType = "";
-        this.box = document.querySelector(".infoBox");
-        this.selectionBox = document.querySelector(".selectionBox");
-
-        this.landType = this.box.querySelector(".landType");
-        this.visible = false;
-        this.color = "rgb(0,0,0)";
-
-        this.radius = 60;
-
-        this.mapDisplayManager = mapDisplayManager
-
-    }
-    updateTargetPosition = (move)=>{
-        this.targetX += move[0];
-        this.targetY += move[1];
-
-        this.updateNonZoomedPosition();
-
-    }
-    
-    setPosition = (x,y)=>{
-
-       
-        if (this.visible == false){
-            this.selectionBox.style.opacity = "1";
-            this.visible = true;
-        }
-        this.targetX = this.mapDisplayManager.x + Math.floor((x-this.mapDisplayManager.x)/this.mapDisplayManager.scaledGridStep)*this.mapDisplayManager.scaledGridStep + this.mapDisplayManager.scaledGridStep/2;
-        this.targetY = this.mapDisplayManager.y + Math.floor((y-this.mapDisplayManager.y)/this.mapDisplayManager.scaledGridStep)*this.mapDisplayManager.scaledGridStep + this.mapDisplayManager.scaledGridStep/2;
-
-        this.updateNonZoomedPosition();
-        
-
-        let pixelX =Math.floor((this.targetX - this.mapDisplayManager.x)/this.mapDisplayManager.scaledGridStep);
-        let pixelY = Math.floor((this.targetY - this.mapDisplayManager.y)/this.mapDisplayManager.scaledGridStep);
-
-        selectedXIndex = pixelX;
-        selectedYIndex = pixelY;
-        console.log(selectedXIndex, selectedYIndex);
-        
-
-        if (pixelX >= 0 &&pixelX < mapData.coloredMap[0].length && pixelY>= 0 && pixelY < mapData.coloredMap.length){   
-            this.color = mapData.coloredMap[pixelY][pixelX]
-            this.targetType = findType(this.color, thresholds);
-        }
-        else {
-            this.color = "rgb(16,143,198)";
-            this.targetType = "Water";
-        }
-        if (this.color == "rgba(0,0,0,0)"){
-            this.color = "rgb(16,143,198)";
-        }
-
-        this.displaySelected(true);
-
-    
-    }
-
-    updateNonZoomedPosition(){
-        this.initialX = (this.targetX - this.mapDisplayManager.centerX)/this.mapDisplayManager.scaleFactor + this.mapDisplayManager.centerX;
-        this.initialY = (this.targetY - this.mapDisplayManager.centerY)/this.mapDisplayManager.scaleFactor + this.mapDisplayManager.centerY;
-    }
-
-    displaySelected = (moveEase)=>{
-        this.selectionBox.style.width = this.mapDisplayManager.scaledGridStep+'px';
-        this.selectionBox.style.height = this.mapDisplayManager.scaledGridStep+'px';
-
-        if (moveEase==true){
-            this.selectionBox.style.transition = "all 0.2s ease-in-out, opacity 0.5s ease-in-out";
-        }
-        else {
-            this.selectionBox.style.transition = "opacity 0.5s ease-in-out";
-            
-        }
-
-        this.selectionBox.style.top = (this.targetY-this.mapDisplayManager.scaledGridStep/2)+'px';
-        this.selectionBox.style.left = (this.targetX-this.mapDisplayManager.scaledGridStep/2)+'px';
-        
-
-       
-        this.selectionBox.style.borderWidth = this.mapDisplayManager.scaledGridStep/8 + 'px';
 
 
-        this.landType.style.background = this.color;
-        this.landType.textContent = this.targetType; 
-    
-    }
-}
+
+
