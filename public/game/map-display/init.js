@@ -4,9 +4,9 @@ display = new Display()
 
 // addRandomHuman(display)
 
-
-//setMap(mapRandomizer);
-// updateDisplay(mapData);
+randomizerManager.restart();
+setMap(randomizerManager.mapRandomizer);
+display.updateDisplay(display.mapData);
 
 
 

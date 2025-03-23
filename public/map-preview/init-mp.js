@@ -20,11 +20,12 @@ let offscreenCtx = offscreenCanvas.getContext('2d');
 let gridCtx = gridCanvas.getContext('2d');
 let infoCtx = infoCanvas.getContext('2d');
 
-let mapData = new Map();
+
+
+let mapData = new Map(110, 110*110*0.45, 50, randomizerManager.mapRandomizer);
 let mapDisplayManager = new MapDisplayManager;
 updateDisplay(mapData);
 setMap();
-
 
 
 

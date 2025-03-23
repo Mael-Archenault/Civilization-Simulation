@@ -1,14 +1,17 @@
 class Display {
     constructor() {
-        this.offscreenCanvas = document.createElement("canvas");
+        this.tileOffscreenCanvas = document.createElement("canvas");
+        this.peopleOffscreenCanvas = document.createElement("canvas");
         this.tileCanvas = document.querySelector(".tileCanvas");
         this.gridCanvas = document.querySelector(".gridCanvas");
         this.peopleCanvas = document.querySelector(".peopleCanvas");
 
         this.tileCursor = document.querySelector(".tileCursor");
 
-        this.offscreenCanvas.setAttribute("width", window.innerWidth);
-        this.offscreenCanvas.setAttribute("height", window.innerHeight);
+        this.tileOffscreenCanvas.setAttribute("width", window.innerWidth);
+        this.tileOffscreenCanvas.setAttribute("height", window.innerHeight);
+        this.peopleOffscreenCanvas.setAttribute("width", window.innerWidth);
+        this.peopleOffscreenCanvas.setAttribute("height", window.innerHeight);
         this.tileCanvas.setAttribute("width", window.innerWidth);
         this.tileCanvas.setAttribute("height", window.innerHeight);
         this.gridCanvas.setAttribute("width", window.innerWidth);
@@ -17,7 +20,9 @@ class Display {
         this.peopleCanvas.setAttribute("height", window.innerHeight);
 
         this.tileCtx = this.tileCanvas.getContext('2d');
-        this.offscreenCtx = this.offscreenCanvas.getContext('2d');
+        this.tileOffscreenCtx = this.tileOffscreenCanvas.getContext('2d');
+        this.peopleOffscreenCtx = this.peopleOffscreenCanvas.getContext('2d');
+        
         this.gridCtx = this.gridCanvas.getContext('2d');
         this.peopleCtx = this.peopleCanvas.getContext('2d');
 
@@ -38,7 +43,11 @@ class Display {
         this.mapOrigin.setTargetReference(this.target);
 
         this.centerMap(this.mapData)
-        
+
+        this.mainloop = setInterval(()=>{
+            this.updateDisplay(this.mapData)
+        }, 200)
+
     }
 
     updateDisplay = (map)=>{
@@ -111,14 +120,14 @@ class Display {
         let x0 = mapOrigin.x
         let y0 = mapOrigin.y
         let gridStep = mapOrigin.scaledGridStep
-        this.offscreenCtx.clearRect(0, 0, this.offscreenCanvas.width, this.offscreenCanvas.height);
+        this.tileOffscreenCtx.clearRect(0, 0, this.tileOffscreenCanvas.width, this.tileOffscreenCanvas.height);
         for (let y=0;y<map.height;y++){
             for(let x=0; x<map.width;x++){
 
 
                 // Drawing the tile color
-                this.offscreenCtx.fillStyle = map.coloredMap[y][x]; 
-                this.offscreenCtx.fillRect(x0 + x*gridStep , y0 + y*gridStep, gridStep+1, gridStep+1);
+                this.tileOffscreenCtx.fillStyle = map.coloredMap[y][x]; 
+                this.tileOffscreenCtx.fillRect(x0 + x*gridStep , y0 + y*gridStep, gridStep+1, gridStep+1);
 
 
 
@@ -132,7 +141,8 @@ class Display {
                         let y_pos = y0 + y*gridStep + (Math.floor(k/3)%2)*gridStep/Math.min(l+2,4);
                         
                         
-                        this.peopleCtx.drawImage(human.image, 0,0, 48,48, x_pos, y_pos, gridStep, gridStep);
+                        this.peopleCtx.drawImage(human.image, 48*human.animationFrame,0, 48,48, x_pos, y_pos, gridStep, gridStep);
+                        
 
                     }
                     
@@ -140,7 +150,8 @@ class Display {
                 }
             }
         }
-        context.drawImage(this.offscreenCanvas, 0, 0);
+        context.drawImage(this.tileOffscreenCanvas, 0, 0);
+        //context.drawImage(this.peopleOffscreenCanvas, 0, 0);
         
     }
 

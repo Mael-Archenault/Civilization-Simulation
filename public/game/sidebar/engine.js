@@ -5,7 +5,7 @@ const urlParams = new URLSearchParams(queryString);
 const keys = JSON.parse(decodeURIComponent(urlParams.get('data')));
 
 
-function setMap (randomizer){
+function setMap (){
     let sizePercent = keys.size;
     let areaPercent = keys.area;
     let forestPercent = keys.forest;
@@ -13,7 +13,9 @@ function setMap (randomizer){
 
     let size = Math.round(minSize + sizePercent *(maxSize-minSize)/100);
     let area = Math.round((size*size)*(minArea + areaPercent *(maxArea-minArea)/100)/100);
-    mapData = new Map(size, area, forestPercent, randomizer);
-    updateDisplay(mapData);
+    randomizerManager.mapRandomizer = new SeededRandom(keys.seed)
+    display.mapData = new Map(size, area, forestPercent, randomizerManager.mapRandomizer);
+    display.updateDisplay(display.mapData);
     
 }
+

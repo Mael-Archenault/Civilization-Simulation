@@ -39,7 +39,7 @@ let selectedYIndex = 0;
 
 
 
-let mapData = new Map();
+let mapData = new Map(110, 110*110*0.45, 50, randomizerManager.mapRandomizer);
 let mapDisplayManager = new MapDisplayManager;
 let target = new Target(mapDisplayManager);
 mapDisplayManager.setTargetReference(target);

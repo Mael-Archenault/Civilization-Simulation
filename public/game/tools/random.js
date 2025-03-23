@@ -4,6 +4,7 @@
 
 class SeededRandom {
     constructor(seed) {
+        this.base_seed = seed;
         this.seed = seed;
         
     }
@@ -21,6 +22,10 @@ class SeededRandom {
     nextFloat(min, max) {
         return this.next() * (max - min) + min;
     }
+
+    restart = ()=>{
+        this.seed = this.base_seed;
+    }
 }
 
 
@@ -29,6 +34,11 @@ class RandomizerManager {
         this.seed = seed;
         this.mapRandomizer = new SeededRandom(this.seed);
         this.humanRandomizer = new SeededRandom(this.seed*4);
+    }
+
+    restart = ()=> {
+        this.mapRandomizer.restart();
+        this.humanRandomizer.restart();
     }
 }
 

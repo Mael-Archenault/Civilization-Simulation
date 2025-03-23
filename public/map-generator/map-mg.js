@@ -8,11 +8,11 @@
 
 
 class Map {
-    constructor(size = 110, area = 110*110*0.45, forestPercent = 50){
-
-        this.heightLevelMap = generateMap(size, size, area);
+    constructor(size = 110, area = 110*110*0.45, forestPercent = 50, randomizer){
+        randomizer.restart();
+        this.heightLevelMap = generateMap(size, size, area, randomizer);
         this.labelledMap = labelMap(this.heightLevelMap, thresholds)
-        this.forestMap = generateForestMap(size, size, thresholds);
+        this.forestMap = generateForestMap(size, size, thresholds, randomizer);
 
         this.coloredMap = colorMap(this.labelledMap, this.forestMap, (1-forestPercent/100)*255, thresholds); // convert heights of the mapData to colors
 

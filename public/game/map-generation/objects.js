@@ -1,6 +1,6 @@
 class Map {
     constructor(size = 110, area = 110*110*0.45, forestPercent = 50, randomizer){
-
+        randomizer.restart();
         this.heightLevelMap = generateMap(size, size, area, randomizer);
         this.labelledMap = labelMap(this.heightLevelMap, thresholds)
         this.forestMap = generateForestMap(size, size, thresholds, randomizer);

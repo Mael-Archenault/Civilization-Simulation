@@ -50,8 +50,8 @@ function setMap (){
 
     let size = Math.round(minSize + sizePercent *(maxSize-minSize)/100);
     let area = Math.round((size*size)*(minArea + areaPercent *(maxArea-minArea)/100)/100);
-    mapRandomizer = new SeededRandom(MGCseedTextbox.value);
-    mapData = new Map(size, area, forestPercent);
+    randomizerManager.mapRandomizer = new SeededRandom(MGCseedTextbox.value)
+    mapData = new Map(size, area, forestPercent, randomizerManager.mapRandomizer);
     mapDisplayManager.centerMap(mapData);
     updateDisplay(mapData);
     

@@ -80,6 +80,15 @@ class Human {
 
 
         this.map;
+
+        this.animationFrame = 0;
+
+        this.animationLoop = setInterval(()=>{
+            this.animationFrame += 1;
+            if (this.animationFrame == 4){
+                this.animationFrame = 0;
+            }
+        }, 200);
     }
     toString = ()=>{
         return "Name: " + this.name + "\n" + "Age: " + this.age + "\n"

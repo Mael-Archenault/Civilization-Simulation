@@ -16,8 +16,8 @@ function lerp(a, b, t) {
     return a + (b - a) * t;
 }
 
-function randomGradient(ix, iy) {
-    const random = mapRandomizer.nextFloat(0,6) ;
+function randomGradient(ix, iy, randomizer) {
+    const random = randomizer.nextFloat(0,6) ;
     return {x: Math.cos(random), y: Math.sin(random)};
 }
 function dotGridGradient(ix, iy, x, y, vectors) {
@@ -53,7 +53,7 @@ function perlin(x, y, vectors) {
     return value;
 }
 
-function generatePerlinNoise(width, height, scale = 1) {
+function generatePerlinNoise(width, height, scale = 1, randomizer) {
     let noise = new Array(height);
     let vectors = [];
     let endI =  Math.floor(height/scale)+2;
@@ -62,7 +62,7 @@ function generatePerlinNoise(width, height, scale = 1) {
     for (let i = 0; i < endI; i++) {
         line = [];
         for (let j = 0; j < endJ; j++) {
-                line.push(randomGradient(j,i));
+                line.push(randomGradient(j,i, randomizer));
             }
         vectors.push(line);
     }
@@ -77,7 +77,7 @@ function generatePerlinNoise(width, height, scale = 1) {
     return noise;
 }
 
-function generateOctavePerlinNoise(width, height, scale, octaves, persistence) {
+function generateOctavePerlinNoise(width, height, scale, octaves, persistence, randomizer) {
     let totalNoise = new Array(height);
     for (let y = 0; y < height; y++) {
         totalNoise[y] = new Array(width).fill(0);
@@ -88,7 +88,7 @@ function generateOctavePerlinNoise(width, height, scale, octaves, persistence) {
     let maxValue = 0; // Used for normalization
 
     for (let o = 0; o < octaves; o++) {
-        let octaveNoise = generatePerlinNoise(width, height, scale * frequency);
+        let octaveNoise = generatePerlinNoise(width, height, scale * frequency, randomizer);
 
         for (let y = 0; y < height; y++) {
             for (let x = 0; x < width; x++) {
@@ -183,13 +183,13 @@ function averageOfNeighbors(mapData, x, y) {
     return sum / count;
 }
 
-function cropCorners(mapData){
+function cropCorners(mapData, randomizer){
     a = mapData.length/2;
     b = mapData[0].length/2;
     for (let y = 0; y < mapData.length; y++) {
         for (let x = 0; x < mapData[y].length; x++) {
             if (((x-mapData[0].length/2)/a)**2 + ((y-mapData.length/2)/b)**2 > 1) {
-                if (mapRandomizer.next()>0.4){
+                if (randomizer.next()>0.4){
                     mapData[y][x] = 0;
                 }
             }
@@ -201,12 +201,12 @@ function cropCorners(mapData){
 //----------------------------------------------------------------
 // Final mapData Generator
 //----------------------------------------------------------------
-function generateMap(width, height, area) {
+function generateMap(width, height, area, randomizer) {
     let scale = width/2; // Experiment with this value
     let octaves = 3; // Number of layers
     let persistence = 1; // Contribution of each octave
 
-
+    
     let complexMap = new Array(height);
     for (let y = 0; y < height; y++) {
         complexMap[y] = new Array(width);
@@ -217,16 +217,22 @@ function generateMap(width, height, area) {
 
     // Superposition of different maps at different scales
 
-    let innerMap = generateOctavePerlinNoise(Math.round(6*width/8), Math.round(6*height/8), Math.round(width/8), octaves, persistence);
+
+    let innerMap = generateOctavePerlinNoise(Math.round(6*width/8), Math.round(6*height/8), Math.round(width/8), octaves, persistence, randomizer);
+
+    
     
     innerMap = normalizeArray(innerMap);
-    innerMap = cropCorners(innerMap);
+    innerMap = cropCorners(innerMap, randomizer);
+
+    
 
     for (let y = 0; y < innerMap.length ; y++) {
         for (let x = 0; x < innerMap[y].length; x++) {
             complexMap[y+Math.round(height/8)][x+Math.round(width/8)] = innerMap[y][x];
         }
     }
+
     
     for (let y = 0; y < 4; y++) {
         complexMap = normalizeArray(complexMap);
@@ -237,15 +243,17 @@ function generateMap(width, height, area) {
     complexMap = adjustArea(complexMap, area, thresholds[1].value);
     
     complexMap = normalizeArray(complexMap);
+
+
     
     return complexMap;
 }
 
-generateForestMap = (width, height, area)=> {
+generateForestMap = (width, height, area, randomizer)=> {
     let scale = width/4; // Experiment with this value
     let octaves = 2; // Number of layers
     let persistence = 1; // Contribution of each octave
-    let res = generateOctavePerlinNoise(width, height, Math.round(width/8), octaves, persistence);
+    let res = generateOctavePerlinNoise(width, height, Math.round(width/8), octaves, persistence, randomizer);
     return normalizeArray(res);
 }
 
@@ -361,8 +369,10 @@ function findLabel(level, thresholds){
     // tresholds is a list of sorted objects with attributes : color, treshold
     
     for(let i=0;i<thresholds.length-1;i++){
-        if ((level < thresholds[i+1].value) && level >= thresholds[i].value){ 
-            return i; 
+        if ((level < thresholds[i+1].value) && level >= thresholds[i].value){
+            
+            return i;
+            
         }
     }
     
