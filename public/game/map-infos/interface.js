@@ -1,14 +1,13 @@
-this.peopleButton = document.querySelector('.peopleButton');
-this.placesButton = document.querySelector('.placesButton');
-this.peopleList = document.querySelector('.peopleList');
-this.placesList = document.querySelector('.placesList');
+const peopleButton = document.querySelector('.peopleButton');
+const placesButton = document.querySelector('.placesButton');
+const peopleList = document.querySelector('.peopleList');
+const placesList = document.querySelector('.placesList');
 
 
 
 setPeopleList = (mapData, selectedXIndex, selectedYIndex)=>{
     peopleList.innerHTML = "";  
     let people = mapData.peopleMap[selectedYIndex][selectedXIndex];
-    console.log(people, selectedXIndex, selectedYIndex);
     if (people.length == 0) {
             addHumanCard(peopleList, null);
     }
@@ -22,27 +21,103 @@ setPeopleList = (mapData, selectedXIndex, selectedYIndex)=>{
 addHumanCard = (parent, human) => {
 
     let listElement = document.createElement('li');
+    let name = document.createElement('p');
+    let deleteButton  = document.createElement("i")
+    listElement.classList.add('infoBox');
+
     if (human == null) {
-        listElement.textContent = 'No Human in the area';
+
+        // Displaying the lack of a human
+        name.textContent = 'No Human in the area';
+        listElement.appendChild(name);
     }
     else {
         
-        listElement.textContent = human.name;
+        // name
+        name.textContent = human.name;
+        listElement.appendChild(name);
+
+        // delete button
+        deleteButton.classList.add('bx', 'bx-x', 'btn-delete-human');
+        listElement.appendChild(deleteButton);
+
+        deleteButton.onclick = () => {
+            human.delete();
+            setPeopleList(display.mapData, display.target.pixelX, display.target.pixelY);
+            display.updateDisplay(display.mapData)
+        }
+
+        name.onclick = () => {
+            setCharacteristicsOnHumanPage(human)
+            humanPage.classList.add('active');
+        }
+
+
     }
-    listElement.classList.add('infoBox');
+    
     parent.appendChild(listElement);
 }
 
 
-this.peopleButton.onclick = () => {
+peopleButton.onclick = () => {
     // change category to active
-    this.peopleButton.classList.toggle('active');
-    this.peopleList.classList.toggle('visible');
+    peopleButton.classList.toggle('active');
+    peopleList.classList.toggle('visible');
     
 }
 
-this.placesButton.onclick = () => {
+placesButton.onclick = () => {
     // change category to active
-    this.placesButton.classList.toggle('active');
-    this.placesList.classList.toggle('visible');
+    placesButton.classList.toggle('active');
+    placesList.classList.toggle('visible');
 }
+
+const humanPage = document.querySelector(".human-page");
+
+const skillList = humanPage.querySelector(".skill-list");
+const stateList = humanPage.querySelector(".state-list");
+
+const humanPageCloseBtn = document.getElementById("btn-close-human")
+
+humanPageCloseBtn.onclick = () => {
+    humanPage.classList.remove('active');
+}
+
+
+setCharacteristicsOnHumanPage = (human)=>{
+
+    skillList.innerHTML = "";
+    stateList.innerHTML = "";
+
+    function capitalizeFirstLetter(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+
+    humanPage.querySelector(".name").textContent = capitalizeFirstLetter(human.name);
+    humanPage.querySelector(".age").textContent = human.age + " years old";
+    humanPage.querySelector(".sex").textContent = capitalizeFirstLetter(human.sex);
+    humanPage.querySelector(".height").textContent = human.height + " cm";
+    humanPage.querySelector(".weight").textContent = human.weight + " kg";
+    for (i =0; i<skills.length; i++){
+        let skillElement = document.createElement("li");
+        skillElement.textContent = capitalizeFirstLetter(skills[i]) + ": " + human[skills[i]];
+        let progressBar = document.createElement("div");
+        progressBar.style.width = human[skills[i]] + "%";
+        progressBar.classList.add("progress-bar");
+        skillElement.appendChild(progressBar);
+        skillList.appendChild(skillElement);
+    }
+
+    for (i =0; i<states.length; i++){
+        let stateElement = document.createElement("li");
+        stateElement.textContent = capitalizeFirstLetter(states[i]) + ": " + human[states[i]];
+        let progressBar = document.createElement("div");
+        progressBar.style.width = human[states[i]] + "%";
+        progressBar.classList.add("progress-bar");
+        stateElement.appendChild(progressBar);
+        stateList.appendChild(stateElement);
+    }
+
+}
+

@@ -50,15 +50,19 @@ function boxMullerTransform() {
 class Human {
     constructor(randomizer) {
         // long-time changing characteristics
-        this.age = 0;
+        this.age = randomizer.nextInt(0,50);
         this.sex = genderPossibility[randomizer.nextInt(0,1)];
         this.name = names[this.sex][randomizer.nextInt(0, names[this.sex].length-1)];
         this.IMC = randomIMC(randomizer);
-        this.height = randomHeight(this.sex);
-        this.weight = this.IMC*(this.height/100)**2; //
+        this.height = Math.round(randomHeight(this.sex),2);
+        this.weight = Math.round(this.IMC*(this.height/100)**2, 2); //
+
+        this.image = new Image()
+        this.image.src = "./human-animation/" + this.sex + "/" + randomizer.nextInt(0,1) + ".png";
+        console.log(this.image.src)
         
 
-        // position on the map
+        // position on the map (pixels)
         this.x = 0;
         this.y = 0;
 
@@ -71,8 +75,11 @@ class Human {
         // skills
 
         for (let i=0; i< skills.length; i++) {
-            this[skills[i]] = 100;
+            this[skills[i]] = randomizer.nextInt(0,50);
         }
+
+
+        this.map;
     }
     toString = ()=>{
         return "Name: " + this.name + "\n" + "Age: " + this.age + "\n"
@@ -83,9 +90,62 @@ class Human {
             this[characteristic] = object[characteristic];
         }
     }
+
+    setMap = (map)=>{
+        this.map = map;
+    }
+
+    setPosition = (x, y)=>{
+        this.x = x;
+        this.y = y;
+    }
+
+
+    delete = ()=>{
+        this.map.peopleMap[this.y][this.x] = this.map.peopleMap[this.y][this.x].filter(human => human !== this)
+
+    }
     
 }
 
 
-let humanRandomizer = new SeededRandom(seed*4);
+
+
+function addRandomHuman(display){
+    target = display.target
+    map = display.mapData
+
+    human = new Human(randomizerManager.humanRandomizer)
+    human.setMap(map);
+    human.setPosition(target.pixelX,target.pixelY);
+
+    map.peopleMap[human.y][human.x].push(human);
+    setPeopleList(map, target.pixelX, target.pixelY);
+    display.updateDisplay(map);
+}
+
+function removeHuman(human){
+    human.delete()
+}
+
+function addHuman(display, human){
+    map = display.mapData
+    target = display.target
+
+    human.setMap(map);
+    human.setPosition(target.pixelX,target.pixelY);
+
+    map.peopleMap[human.y][human.x].push(human);
+    setPeopleList(map, human.x, human.y);
+    display.updateDisplay(map);
+}
+
+createHumanFromCharacteristics = (characteristics)=>{
+    human = new Human(randomizerManager.humanRandomizer)
+    const keys = Object.keys(characteristics);
+    for (i = 0; i<keys.length; i++) {
+        human[keys[i]] = characteristics[keys[i]];
+    }
+    return human
+}
 

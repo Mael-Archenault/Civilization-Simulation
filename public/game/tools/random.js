@@ -24,7 +24,17 @@ class SeededRandom {
 }
 
 
-const seed = 468745654;
+class RandomizerManager {
+    constructor(seed) {
+        this.seed = seed;
+        this.mapRandomizer = new SeededRandom(this.seed);
+        this.humanRandomizer = new SeededRandom(this.seed*4);
+    }
+}
+
+let randomizerManager = new RandomizerManager(468745654);
+
+
 
 
 

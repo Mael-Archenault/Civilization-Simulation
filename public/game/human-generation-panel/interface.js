@@ -7,6 +7,12 @@ const close_button = document.getElementById("btn-close-characteristics");
 const open_button = document.querySelector(".addHumanButton");
 const apply_button = document.querySelector(".applyButton");
 
+const humanGenerationBtn = document.getElementById("btn-human");
+const humanGenerationContent = document.querySelector(".human-generation-content");
+
+const HGCAddBtn = humanGenerationContent.querySelector(".addRandomHumanButton");
+
+
 
 
 open_button.addEventListener('click', () => {
@@ -17,7 +23,8 @@ close_button.addEventListener('click', () => {
 });
 
 apply_button.addEventListener('click', () => {
-    getCharacteristics();
+    addHuman(display, createHumanFromCharacteristics(getCharacteristics()));
+    humanCharacteristicsPanel.classList.remove("active");
 });
 
 
@@ -100,3 +107,6 @@ getCharacteristics = ()=>{
 setAdvancedCharacteristicsList(skills, states);
 
 
+
+
+HGCAddBtn.onclick = ()=>{addRandomHuman(display)};

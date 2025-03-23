@@ -387,5 +387,3 @@ function findType(color, thresholds) {
 }
 
 
-let mapRandomizer = new SeededRandom(seed);
-

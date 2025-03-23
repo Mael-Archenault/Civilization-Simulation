@@ -91,9 +91,10 @@ function handleMouseUp() {
 }
 
 function handleMouseOver(event) {
-    let object = event.target.classList[0];
-    if (object == "infoCanvas"|object == "selectionBox"){
+    let object = event.target.id;
+    if (object == "canvas"|object == "selectionBox"){
         onCanvas = true;
+        console.log("test")
     }
     else {
         onCanvas = false;

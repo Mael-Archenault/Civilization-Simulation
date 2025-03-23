@@ -3,7 +3,7 @@ class Display {
         this.offscreenCanvas = document.createElement("canvas");
         this.tileCanvas = document.querySelector(".tileCanvas");
         this.gridCanvas = document.querySelector(".gridCanvas");
-        this.infoCanvas = document.querySelector(".infoCanvas");
+        this.peopleCanvas = document.querySelector(".peopleCanvas");
 
         this.tileCursor = document.querySelector(".tileCursor");
 
@@ -13,13 +13,13 @@ class Display {
         this.tileCanvas.setAttribute("height", window.innerHeight);
         this.gridCanvas.setAttribute("width", window.innerWidth);
         this.gridCanvas.setAttribute("height", window.innerHeight);
-        this.infoCanvas.setAttribute("width", window.innerWidth);
-        this.infoCanvas.setAttribute("height", window.innerHeight);
+        this.peopleCanvas.setAttribute("width", window.innerWidth);
+        this.peopleCanvas.setAttribute("height", window.innerHeight);
 
         this.tileCtx = this.tileCanvas.getContext('2d');
         this.offscreenCtx = this.offscreenCanvas.getContext('2d');
         this.gridCtx = this.gridCanvas.getContext('2d');
-        this.infoCtx = this.infoCanvas.getContext('2d');
+        this.peopleCtx = this.peopleCanvas.getContext('2d');
 
         this.lighterTileX = 0;
         this.lighterTileY = 0;
@@ -30,10 +30,11 @@ class Display {
         this.selectedXIndex = 0;
         this.selectedYIndex = 0;
 
-        this.mapData = new Map(110, 110 * 110 * 0.45, 50, mapRandomizer);
+        this.mapData = new Map(40, 40*40 * 0.45, 50, randomizerManager.mapRandomizer);
         this.mapOrigin = new MapOrigin;
 
         this.target = new SelectedTileBox(this.mapOrigin);
+        this.target.setPosition(this.mapData, 0,0)
         this.mapOrigin.setTargetReference(this.target);
 
         this.centerMap(this.mapData)
@@ -43,10 +44,13 @@ class Display {
     updateDisplay = (map)=>{
     
         requestAnimationFrame(()=>{
+
             
 
             // deleting previous display
             this.tileCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            
+            this.peopleCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
             // filling the background with the blue color
             this.tileCtx.fillStyle = "rgb(16,143,198)";
@@ -119,13 +123,20 @@ class Display {
 
 
                 if (map.peopleMap[y][x].length > 0){
-                    // Drawing a human on the tile
-                    this.offscreenCtx.fillStyle = "rgb(255,255,255)";
-                    this.offscreenCtx.beginPath();    
-                    this.offscreenCtx.arc(x0 + x*gridStep +gridStep/2, y0 + y*gridStep + gridStep/2, gridStep/4,  Math.PI * 2, false);
-                    this.offscreenCtx.fillStyle = "red";
-                    this.offscreenCtx.fill();
-                    this.offscreenCtx.stroke();
+                    let l = map.peopleMap[y][x].length
+                    for (let k=0; k<Math.min(l, 6); k++){
+                        human = map.peopleMap[y][x][k]
+                        
+                    
+                        let x_pos = x0 + x*gridStep + (k%3-Math.min(l-1,2)/2)*gridStep/Math.min(l,3);  // x-position of the human
+                        let y_pos = y0 + y*gridStep + (Math.floor(k/3)%2)*gridStep/Math.min(l+2,4);
+                        
+                        
+                        this.peopleCtx.drawImage(human.image, 0,0, 48,48, x_pos, y_pos, gridStep, gridStep);
+
+                    }
+                    
+                    
                 }
             }
         }
@@ -135,9 +146,6 @@ class Display {
 
 
     displayGrid(mapOrigin, context){
-
-        // tileCtx.fillStyle = 'red';
-        // tileCtx.fillRect(this.x, this.y, mapOrigin.scaledGridStep, mapOrigin.scaledGridStep);
         
         context.clearRect(0,0, window.innerWidth, window.innerHeight);
         context.globalAlpha = (mapOrigin.scaleFactor - 0.1) / 9.9;
@@ -192,31 +200,6 @@ class Display {
 // Map Object (map data storage)
 //----------------------------------------------------------------
 
-
-
-class Map {
-    constructor(size = 110, area = 110*110*0.45, forestPercent = 50, randomizer){
-
-        this.heightLevelMap = generateMap(size, size, area, randomizer);
-        this.labelledMap = labelMap(this.heightLevelMap, thresholds)
-        this.forestMap = generateForestMap(size, size, thresholds, randomizer);
-
-        this.coloredMap = colorMap(this.labelledMap, this.forestMap, (1-forestPercent/100)*255, thresholds); // convert heights of the mapData to colors
-
-        this.width = this.heightLevelMap[0].length;
-        this.height = this.heightLevelMap.length;
-
-        this.peopleMap = new Array(this.height);
-        for (var i = 0; i < this.height; i++){
-            this.peopleMap[i] = new Array(this.width);
-            for (var j = 0; j < this.width; j++){
-                this.peopleMap[i][j] = new Array();
-            }
-        }
-        
-        
-    }
-}
 
 //----------------------------------------------------------------
 // Map Display Manager (zoom handling, map drawing, etc)

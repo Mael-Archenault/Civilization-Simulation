@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./styles/style.css">
     <link rel="stylesheet" href="./sidebar/style.css">
     <link rel="stylesheet" href="./human-generation-panel/style.css">
+    <link rel="stylesheet" href="./map-infos/style.css">
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" href="data:,">
@@ -52,9 +53,6 @@
                     <li>
                         <input type="button" class="addHumanButton" value = "Add Human">   
                     </li>
-                    <li>
-                        <input type="button" class="removeButton" value = "Remove Human">   
-                    </li>
                 </ul>
             </li>
             <li class="building-content"></li>
@@ -70,7 +68,7 @@
     <div class="canvas-container">
             <canvas id="canvas" class="tileCanvas"></canvas>
             <canvas id="canvas" class="gridCanvas"></canvas>
-            <canvas id="canvas" class="infoCanvas"></canvas>
+            <canvas id="canvas" class="peopleCanvas"></canvas>
     </div>
     <div class="infoBox main-container">
             <h1 class= "infoBox landType"> Forest</h1>
@@ -92,7 +90,29 @@
                 </li>
             </ul>
     </div>
-    <div class = "selectionBox">
+
+    <div class="human-page">
+        <h1 class = "name"></h1>
+        <div class = "content">
+            <div class="main">
+                <p class = "sex"></p>
+                <p class = "age"></p>
+                <p class = "height"></p>
+                <p class = "weight"></p>
+            </div>
+
+            <div class="points-container">
+                <ul class="skill-list list"></ul>
+                <ul class="state-list list"></ul>
+            </div>
+
+            <div class="events"></div>
+        </div>
+            
+            <i class="bx bx-x" id="btn-close-human"></i>
+        </div>
+    </div>
+    <div id = "selectionBox" class = "selectionBox">
     </div>
     <div class = "tileCursor">
     </div>
@@ -161,6 +181,7 @@
 
     <!-- Initialization -->
     <script src="map-generation/engine.js"></script>
+    <script src="map-generation/objects.js"></script>
     
     <script src="human-generation-panel/interface.js"></script>
     <script src="human-generation-panel/engine.js"></script>

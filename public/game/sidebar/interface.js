@@ -12,9 +12,6 @@ const minArea = 10;
 let homeBtn = document.getElementById("btn-home");
 let homeContent = document.querySelector(".home-content");
 
-let humanGenerationBtn = document.getElementById("btn-human");
-let humanGenerationContent = document.querySelector(".human-generation-content");
-
 let buildingBtn = document.getElementById("btn-building");
 let buildingContent = document.querySelector(".building-content");
 
