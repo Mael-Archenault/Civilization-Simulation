@@ -43,8 +43,8 @@ addHumanCard = (parent, human) => {
 
         deleteButton.onclick = () => {
             human.delete();
-            setPeopleList(display.mapData, display.target.pixelX, display.target.pixelY);
-            display.updateDisplay(display.mapData)
+            setPeopleList(simulation.display.map, simulation.display.target.pixelX, simulation.display.target.pixelY);
+            simulation.display.updateDisplay()
         }
 
         name.onclick = () => {

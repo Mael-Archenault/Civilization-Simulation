@@ -1,5 +1,6 @@
 class Display {
-    constructor() {
+    constructor(map) {
+        // Canvas
         this.tileOffscreenCanvas = document.createElement("canvas");
         this.peopleOffscreenCanvas = document.createElement("canvas");
         this.tileCanvas = document.querySelector(".tileCanvas");
@@ -26,6 +27,7 @@ class Display {
         this.gridCtx = this.gridCanvas.getContext('2d');
         this.peopleCtx = this.peopleCanvas.getContext('2d');
 
+        // Cursor positions
         this.lighterTileX = 0;
         this.lighterTileY = 0;
 
@@ -35,22 +37,22 @@ class Display {
         this.selectedXIndex = 0;
         this.selectedYIndex = 0;
 
-        this.mapData = new Map(40, 40*40 * 0.45, 50, randomizerManager.mapRandomizer);
-        this.mapOrigin = new MapOrigin;
+        this.map = map;
+        this.mapOrigin = new MapOrigin();
 
         this.target = new SelectedTileBox(this.mapOrigin);
-        this.target.setPosition(this.mapData, 0,0)
+        this.target.setPosition(this.map, 0,0)
         this.mapOrigin.setTargetReference(this.target);
 
-        this.centerMap(this.mapData)
+        this.centerMap();
 
         this.mainloop = setInterval(()=>{
-            this.updateDisplay(this.mapData)
+            this.updateDisplay()
         }, 200)
 
     }
 
-    updateDisplay = (map)=>{
+    updateDisplay = ()=>{
     
         requestAnimationFrame(()=>{
 
@@ -67,7 +69,7 @@ class Display {
 
 
             // displaying the map tiles
-            this.displayMap(map,this.mapOrigin, this.tileCtx); // display tiles of the mapData
+            this.displayMap(this.map,this.mapOrigin, this.tileCtx); // display tiles of the mapData
             this.displayGrid(this.mapOrigin,this.gridCtx);
             this.displayLighterTile();
             if (this.target.visible == true){
@@ -115,11 +117,11 @@ class Display {
     }
 
 
-    displayMap = (map,mapOrigin, context)=> {
+    displayMap = (map)=> {
 
-        let x0 = mapOrigin.x
-        let y0 = mapOrigin.y
-        let gridStep = mapOrigin.scaledGridStep
+        let x0 = this.mapOrigin.x
+        let y0 = this.mapOrigin.y
+        let gridStep = this.mapOrigin.scaledGridStep
         this.tileOffscreenCtx.clearRect(0, 0, this.tileOffscreenCanvas.width, this.tileOffscreenCanvas.height);
         for (let y=0;y<map.height;y++){
             for(let x=0; x<map.width;x++){
@@ -150,58 +152,79 @@ class Display {
                 }
             }
         }
-        context.drawImage(this.tileOffscreenCanvas, 0, 0);
-        //context.drawImage(this.peopleOffscreenCanvas, 0, 0);
+        this.tileCtx.drawImage(this.tileOffscreenCanvas, 0, 0);
         
     }
 
 
-    displayGrid(mapOrigin, context){
+    displayGrid(){
         
-        context.clearRect(0,0, window.innerWidth, window.innerHeight);
-        context.globalAlpha = (mapOrigin.scaleFactor - 0.1) / 9.9;
-        context.strokeStyle = 'black';
-        context.lineWidth = 2;
-        for (let i = mapOrigin.x % mapOrigin.scaledGridStep; i < window.innerWidth; i += mapOrigin.scaledGridStep) {
+        this.gridCtx.clearRect(0,0, window.innerWidth, window.innerHeight);
+        this.gridCtx.globalAlpha = (this.mapOrigin.scaleFactor - 0.1) / 9.9;
+        this.gridCtx.strokeStyle = 'black';
+        this.gridCtx.lineWidth = 2;
+        for (let i = this.mapOrigin.x % this.mapOrigin.scaledGridStep; i < window.innerWidth; i += this.mapOrigin.scaledGridStep) {
 
-            context.beginPath();
-            context.moveTo(i, 0);
-            context.lineTo(i, window.innerHeight);
-
-            // Draw the line
-            context.stroke();
-        }
-        for (let i = mapOrigin.y % mapOrigin.scaledGridStep; i < window.innerHeight; i += mapOrigin.scaledGridStep) {
-
-            context.beginPath();
-            context.moveTo(0, i);
-            context.lineTo(window.innerWidth, i);
+            this.gridCtx.beginPath();
+            this.gridCtx.moveTo(i, 0);
+            this.gridCtx.lineTo(i, window.innerHeight);
 
             // Draw the line
-            context.stroke();
+            this.gridCtx.stroke();
         }
-        context.globalAlpha = 1;
+        for (let i = this.mapOrigin.y % this.mapOrigin.scaledGridStep; i < window.innerHeight; i += this.mapOrigin.scaledGridStep) {
+
+            this.gridCtx.beginPath();
+            this.gridCtx.moveTo(0, i);
+            this.gridCtx.lineTo(window.innerWidth, i);
+
+            // Draw the line
+            this.gridCtx.stroke();
+        }
+        this.gridCtx.globalAlpha = 1;
         }
 
     handleZoom = (event) => {
         this.mapOrigin.handleZoom(event);
+        this.target.displaySelected(false);
         this.updateDisplay(this.mapData);
     }
 
     updateMapPosition = (move) => {
         this.mapOrigin.updatePosition(move);
         this.target.updateTargetPosition(move);
-        this.updateDisplay(this.mapData);
+        this.updateDisplay();
 
         
     }
 
-    centerMap = (map) => {
-        this.mapOrigin.centerMap(map);
-        this.updateDisplay(this.mapData);
+    centerMap = () => {
+        this.mapOrigin.centerMap(this.map);
+        this.updateDisplay(this.map);
     }
     
-    
+
+    localSave = () => {
+        let data = {
+            mapData: this.mapData,
+        }
+        let json = JSON.stringify(data);
+        localStorage.setItem('mapData', json);
+        console.log("Map saved to local storage");
+    }
+
+    resize = () => {
+        this.tileOffscreenCanvas.setAttribute("width", window.innerWidth);
+        this.tileOffscreenCanvas.setAttribute("height", window.innerHeight);
+        this.peopleOffscreenCanvas.setAttribute("width", window.innerWidth);
+        this.peopleOffscreenCanvas.setAttribute("height", window.innerHeight);
+        this.tileCanvas.setAttribute("width", window.innerWidth);
+        this.tileCanvas.setAttribute("height", window.innerHeight);
+        this.gridCanvas.setAttribute("width", window.innerWidth);
+        this.gridCanvas.setAttribute("height", window.innerHeight);
+        this.peopleCanvas.setAttribute("width", window.innerWidth);
+        this.peopleCanvas.setAttribute("height", window.innerHeight);
+    }
     
     
 }

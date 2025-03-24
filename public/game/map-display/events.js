@@ -10,7 +10,7 @@ document.addEventListener("mouseover", handleMouseOver);
 
 
 window.addEventListener("resize", ()=>{
-    display.updateDisplay(display.mapData);
+    simulation.display.resize();
 });
 
 
@@ -41,15 +41,15 @@ function handleMouseDown(event) {
     startX = event.clientX;
     startY = event.clientY;
 
-    display.tileCursor.style.transition = "none"; 
+    simulation.display.tileCursor.style.transition = "none"; 
 }
 
 function handleMouseMove(event) {
 
     // managing to lighten the tile where the mouse is pointing to
 
-    display.mapOrigin.mouseX = event.clientX;
-    display.mapOrigin.mouseY = event.clientY;
+    simulation.display.mapOrigin.mouseX = event.clientX;
+    simulation.display.mapOrigin.mouseY = event.clientY;
 
 
     // transmit the mouse movement to the mapOrigin object
@@ -66,11 +66,11 @@ function handleMouseMove(event) {
         }
         // Do something with the mouse slide 
         if (onCanvas == true) {
-            display.updateMapPosition([deltaX, deltaY]);
+            simulation.display.updateMapPosition([deltaX, deltaY]);
         }
-        
+        simulation.display.updateDisplay();
     }
-    display.updateDisplay(display.mapData);
+   
     
 }
 
@@ -79,22 +79,20 @@ function handleMouseUp() {
     if (isMouseDown == true){
         if (hasMoved == false && onCanvas == true){
             
-            display.target.setPosition(startX, startY, display.mapData);
-            setPeopleList(display.mapData, display.target.pixelX, display.target.pixelY);
+            simulation.display.target.setNewTarget(startX, startY);
+            setPeopleList(simulation.display.map, simulation.display.target.pixelX, simulation.display.target.pixelY);
             
         }
 
         hasMoved = false;
         isMouseDown = false;
     }
-    display.tileCursor.style.transition = "all 0.01s ease-in";
 }
 
 function handleMouseOver(event) {
     let object = event.target.id;
     if (object == "canvas"|object == "selectionBox"){
         onCanvas = true;
-        console.log("test")
     }
     else {
         onCanvas = false;
@@ -104,6 +102,7 @@ function handleMouseOver(event) {
 
 function handleZoom(event) {
     if (onCanvas == true){
-        display.handleZoom(event);
+        
+        simulation.display.handleZoom(event);
     }
 }

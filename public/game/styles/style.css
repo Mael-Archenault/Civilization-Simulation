@@ -47,10 +47,8 @@ body .canvas-container .peopleCanvas{
 
 body .selectionBox {
     position : absolute;
-    opacity : 0;
     border: solid 1px white;
     z-index: 250;
-    transition: opacity 0.5s ease;
     border-radius: 5%;
 }
 

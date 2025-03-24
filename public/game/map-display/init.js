@@ -1,12 +1,13 @@
 
 
-display = new Display()
+
 
 // addRandomHuman(display)
 
-randomizerManager.restart();
-setMap(randomizerManager.mapRandomizer);
-display.updateDisplay(display.mapData);
+// randomizerManager.restart();
+// setMap(randomizerManager.mapRandomizer);
+// display.updateDisplay(display.mapData);
+
 
 
 

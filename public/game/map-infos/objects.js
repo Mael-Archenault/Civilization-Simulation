@@ -30,17 +30,20 @@ class SelectedTileBox{
         this.targetX += move[0];
         this.targetY += move[1];
 
+        this.setPosition(this.targetX, this.targetY, );
         this.updateNonZoomedPosition();
+        this.displaySelected(false);
 
     }
-    
-    setPosition = (x,y, map)=>{
 
-       
-        if (this.visible == false){
-            this.selectionBox.style.opacity = "1";
-            this.visible = true;
-        }
+    setNewTarget(x,y){
+        this.setPosition(x,y);
+        this.updateNonZoomedPosition();
+        this.displaySelected(true);
+    }
+    
+    setPosition = (x,y)=>{
+
         this.targetX = this.mapOrigin.x + Math.floor((x-this.mapOrigin.x)/this.mapOrigin.scaledGridStep)*this.mapOrigin.scaledGridStep + this.mapOrigin.scaledGridStep/2;
         this.targetY = this.mapOrigin.y + Math.floor((y-this.mapOrigin.y)/this.mapOrigin.scaledGridStep)*this.mapOrigin.scaledGridStep + this.mapOrigin.scaledGridStep/2;
 
@@ -51,8 +54,8 @@ class SelectedTileBox{
         this.pixelY = Math.floor((this.targetY - this.mapOrigin.y)/this.mapOrigin.scaledGridStep);
         
 
-        if (this.pixelX >= 0 &&this.pixelX < map.coloredMap[0].length && this.pixelY>= 0 && this.pixelY < map.coloredMap.length){   
-            this.color = map.coloredMap[this.pixelY][this.pixelX]
+        if (this.pixelX >= 0 &&this.pixelX < simulation.map.coloredMap[0].length && this.pixelY>= 0 && this.pixelY < simulation.map.coloredMap.length){   
+            this.color = simulation.map.coloredMap[this.pixelY][this.pixelX]
             this.targetType = findType(this.color, thresholds);
         }
         else {
@@ -76,17 +79,21 @@ class SelectedTileBox{
     displaySelected = (moveEase)=>{
         this.selectionBox.style.width = this.mapOrigin.scaledGridStep+'px';
         this.selectionBox.style.height = this.mapOrigin.scaledGridStep+'px';
+        
 
+        
         if (moveEase==true){
-            this.selectionBox.style.transition = "all 0.2s ease-in-out, opacity 0.5s ease-in-out";
+            this.selectionBox.style.transition = "all 0.2s ease-in-out";
         }
         else {
-            this.selectionBox.style.transition = "opacity 0.5s ease-in-out";
+            this.selectionBox.style.transition = "";
             
         }
 
         this.selectionBox.style.top = (this.targetY-this.mapOrigin.scaledGridStep/2)+'px';
         this.selectionBox.style.left = (this.targetX-this.mapOrigin.scaledGridStep/2)+'px';
+
+
         
 
        

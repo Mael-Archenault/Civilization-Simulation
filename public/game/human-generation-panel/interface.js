@@ -23,7 +23,7 @@ close_button.addEventListener('click', () => {
 });
 
 apply_button.addEventListener('click', () => {
-    addHuman(display, createHumanFromCharacteristics(getCharacteristics()));
+    addHuman(createHumanFromCharacteristics(getCharacteristics()));
     humanCharacteristicsPanel.classList.remove("active");
 });
 
@@ -109,4 +109,4 @@ setAdvancedCharacteristicsList(skills, states);
 
 
 
-HGCAddBtn.onclick = ()=>{addRandomHuman(display)};
+HGCAddBtn.onclick = ()=>{addRandomHuman()};
