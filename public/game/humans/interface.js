@@ -1,19 +1,33 @@
-const peopleButton = document.querySelector('.peopleButton');
-const placesButton = document.querySelector('.placesButton');
-const peopleList = document.querySelector('.peopleList');
-const placesList = document.querySelector('.placesList');
+const totalHumansList = document.querySelector('.total-humans-list');
+const selectedHumansList = document.querySelector('.selected-humans-list');
 
 
 
-setPeopleList = (mapData, selectedXIndex, selectedYIndex)=>{
-    peopleList.innerHTML = "";  
-    let people = mapData.peopleMap[selectedYIndex][selectedXIndex];
-    if (people.length == 0) {
-            addHumanCard(peopleList, null);
-    }
-    else {
+setSelectedHumansList = (map, selectedXIndex, selectedYIndex)=>{
+    selectedHumansList.innerHTML = "";  
+    let people = map.peopleMap[selectedYIndex][selectedXIndex];
+    
+    if (people.length>0) {
         for (let i = 0; i < people.length; i++){
-            addHumanCard(peopleList, people[i]);
+            addHumanCard(selectedHumansList, people[i]);
+        }
+    }
+
+}
+
+setTotalHumansList = (map)=>{
+    totalHumansList.innerHTML = "";  
+    let people = [];
+    for (let y = 0; y < map.peopleMap.length; y++) {
+        for (let x = 0; x < map.peopleMap[y].length; x++) {
+            people = people.concat(map.peopleMap[y][x]);
+        }
+    }
+
+   
+    if (people.length > 0) {
+        for (let i = 0; i < people.length; i++){
+            addHumanCard(totalHumansList, people[i]);
         }
     }
 
@@ -43,7 +57,8 @@ addHumanCard = (parent, human) => {
 
         deleteButton.onclick = () => {
             human.delete();
-            setPeopleList(simulation.display.map, simulation.display.target.pixelX, simulation.display.target.pixelY);
+            setSelectedHumansList(simulation.display.map, simulation.display.target.pixelX, simulation.display.target.pixelY);
+            setTotalHumansList(simulation.display.map);
             simulation.display.updateDisplay()
         }
 
@@ -59,18 +74,7 @@ addHumanCard = (parent, human) => {
 }
 
 
-peopleButton.onclick = () => {
-    // change category to active
-    peopleButton.classList.toggle('active');
-    peopleList.classList.toggle('visible');
-    
-}
-
-placesButton.onclick = () => {
-    // change category to active
-    placesButton.classList.toggle('active');
-    placesList.classList.toggle('visible');
-}
+// Description Page
 
 const humanPage = document.querySelector(".human-page");
 

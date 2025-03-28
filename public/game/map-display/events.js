@@ -81,7 +81,7 @@ function handleMouseUp() {
         if (hasMoved == false && onCanvas == true){
             
             simulation.display.target.setNewTarget(startX, startY);
-            setPeopleList(simulation.display.map, simulation.display.target.pixelX, simulation.display.target.pixelY);
+            setSelectedHumansList(simulation.display.map, simulation.display.target.pixelX, simulation.display.target.pixelY);
             
         }
 

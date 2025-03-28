@@ -59,7 +59,8 @@ function addRandomHuman(pixelX, pixelY){
 
          
     map.peopleMap[human.y][human.x].push(human);
-    setPeopleList(map, human.x, human.y);
+    setTotalHumansList(map);
+    setSelectedHumansList(map, human.x, human.y);
     simulation.display.updateDisplay();
 }
 
@@ -74,7 +75,8 @@ function addHuman(human){
     human.setMap(map);
 
     map.peopleMap[human.y][human.x].push(human);
-    setPeopleList(map, human.x, human.y);
+    setTotalHumansList(map);
+    setSelectedHumansList(map, human.x, human.y);
     simulation.display.updateDisplay();
 }
 

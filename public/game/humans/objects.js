@@ -11,13 +11,12 @@ class SelectedTileBox{
         this.targetX = 0;
         this.targetY = 0;
         this.targetType = "";
-        this.box = document.querySelector(".infoBox");
         this.selectionBox = document.querySelector(".selectionBox");
 
         this.pixelX = 0;
         this.pixelY = 0;
 
-        this.landType = this.box.querySelector(".landType");
+        this.landType = document.querySelector(".land-type");
         this.visible = false;
         this.color = "rgb(0,0,0)";
 

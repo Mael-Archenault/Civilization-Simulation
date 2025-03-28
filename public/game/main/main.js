@@ -23,27 +23,17 @@ class Simulation {
 
 
 
-        setTimeout(()=>{
-            this.human = new Human(randomizerManager.humanRandomizer);
-            this.human.sleep = 0;
-            this.human.time = 10;
-            this.human.setPosition(20,20)
-            this.human.setMap(this.map);
+        // setTimeout(()=>{
+        //     this.human = new Human(randomizerManager.humanRandomizer);
+        //     this.human.sleep = 0;
+        //     this.human.time = 10;
+        //     this.human.setPosition(20,20)
+        //     this.human.setMap(this.map);
 
 
-            addHuman(this.human);
-
-            console.log(this.human.sleep, this.human.time)
-            if (this.actions[0].isPossible(this.human)){
-                console.log("Action is possible")
-                this.actions[0].execute(this.human);
-            }
-            else {
-                console.log("Action is not possible")
-            }
-            console.log(this.human.sleep, this.human.time)
+        //     addHuman(this.human);
             
-        }, 2000);
+        // }, 2000);
         
     }
 

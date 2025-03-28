@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="./styles/style.css">
     <link rel="stylesheet" href="./sidebar/style.css">
     <link rel="stylesheet" href="./human-generation-panel/style.css">
-    <link rel="stylesheet" href="./map-infos/style.css">
+    <link rel="stylesheet" href="./humans/style.css">
     <link rel="stylesheet" href="./actions/style.css">
+    <link rel="stylesheet" href="./land-type/style.css">
 
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -43,9 +44,9 @@
     <div class = "sidebar-content">
         <ul>
             <li class="home-content"></li>
-            <li class="human-generation-content">
+            <li class="human-content">
                 <div class="title">
-                    <span>Human Generation</span>
+                    <span>Humans</span>
                     <i class="bx bx-info-circle" id="btn-info-human"></i>
                 </div>
                 <ul>
@@ -56,6 +57,18 @@
                         <input type="button" class="addHumanButton" value = "Add Human">   
                     </li>
                 </ul>
+                <div class = "selected-humans-list-container">
+                    <h2>Humans on selected tile</h2>
+                    <ul class="selected-humans-list">   
+                    </ul>
+                </div>
+                <div class = "total-humans-list-container">
+                    <h2>All humans</h2>
+                    <ul class="total-humans-list">   
+                    </ul>
+                </div>
+                
+                
             </li>
             <li class="building-content"></li>
             <li class="simulation-content">
@@ -87,25 +100,8 @@
             <canvas id="canvas" class="gridCanvas"></canvas>
             <canvas id="canvas" class="peopleCanvas"></canvas>
     </div>
-    <div class="infoBox main-container">
-            <h1 class= "infoBox landType"> Forest</h1>
-            <ul class="infoBox categories-container">
-                <li class="infoBox category-container">
-                    <h2 class="infoBox peopleButton">
-                        People
-                    </h2>
-                    <ul class="infoBox peopleList">
-                    </ul>   
-                </li>
-                <li class="infoBox category-container">
-                    <h2 class="infoBox placesButton">
-                        Places
-                    </h2>
-                    <ul class="infoBox placesList">
-                        
-                    </ul>
-                </li>
-            </ul>
+    <div class="land-type-container">
+            <h1 class= "land-type">Forest</h1>
     </div>
 
     <div class="human-page">
@@ -236,8 +232,8 @@
 
     <script src="sidebar/interface.js"></script>
 
-    <script src="map-infos/interface.js"></script>
-    <script src="map-infos/objects.js"></script>
+    <script src="humans/interface.js"></script>
+    <script src="humans/objects.js"></script>
 
     <script src="map-generation/load.js"></script>
 

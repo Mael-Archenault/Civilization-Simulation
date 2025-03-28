@@ -12,6 +12,9 @@ const minArea = 10;
 let homeBtn = document.getElementById("btn-home");
 let homeContent = document.querySelector(".home-content");
 
+let humanBtn = document.getElementById("btn-human");
+let humanContent = document.querySelector(".human-content");
+
 let buildingBtn = document.getElementById("btn-building");
 let buildingContent = document.querySelector(".building-content");
 
@@ -28,7 +31,7 @@ let historyContent = document.querySelector(".history-content");
 
 homeBtn.onclick = function () {
     homeContent.classList.toggle("active");
-    humanGenerationContent.classList.remove("active");
+    humanContent.classList.remove("active");
     buildingContent.classList.remove("active");
     simulationContent.classList.remove("active");
     actionContent.classList.remove("active");
@@ -37,7 +40,7 @@ homeBtn.onclick = function () {
 
 humanGenerationBtn.onclick = function () {
     homeContent.classList.remove("active");
-    humanGenerationContent.classList.toggle("active");
+    humanContent.classList.toggle("active");
     buildingContent.classList.remove("active");
     simulationContent.classList.remove("active");
     actionContent.classList.remove("active");
@@ -46,7 +49,7 @@ humanGenerationBtn.onclick = function () {
 
 buildingBtn.onclick = function () {
     homeContent.classList.remove("active");
-    humanGenerationContent.classList.remove("active");
+    humanContent.classList.remove("active");
     buildingContent.classList.toggle("active");
     simulationContent.classList.remove("active");
     actionContent.classList.remove("active");
@@ -55,7 +58,7 @@ buildingBtn.onclick = function () {
 
 simulationBtn.onclick = function () {
     homeContent.classList.remove("active");
-    humanGenerationContent.classList.remove("active");
+    humanContent.classList.remove("active");
     buildingContent.classList.remove("active");
     simulationContent.classList.toggle("active");
     actionContent.classList.remove("active");
@@ -64,7 +67,7 @@ simulationBtn.onclick = function () {
 
 actionBtn.onclick = function () {
     homeContent.classList.remove("active");
-    humanGenerationContent.classList.remove("active");
+    humanContent.classList.remove("active");
     buildingContent.classList.remove("active");
     simulationContent.classList.remove("active");
     actionContent.classList.toggle("active");
@@ -73,7 +76,7 @@ actionBtn.onclick = function () {
 
 historyBtn.onclick = function () {
     homeContent.classList.remove("active");
-    humanGenerationContent.classList.remove("active");
+    humanContent.classList.remove("active");
     buildingContent.classList.remove("active");
     simulationContent.classList.remove("active");
     actionContent.classList.remove("active");

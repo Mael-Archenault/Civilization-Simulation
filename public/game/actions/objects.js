@@ -17,7 +17,6 @@ class Action{
     isPossible= (actor)=>{
 
         for (let requirement in this.disposableRequirements){
-            console.log(requirement);
             if (actor[requirement]< this.disposableRequirements[requirement]){
                 return false;
             }
@@ -38,7 +37,6 @@ class Action{
     }
 
     loadActionFromJSON = (action)=>{
-        console.log(action)
         this.name = action["name"];
         this.disposableRequirements = action["disposableRequirements"];
         this.permanentRequirements = action["permanentRequirements"];

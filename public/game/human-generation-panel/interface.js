@@ -8,7 +8,7 @@ const open_button = document.querySelector(".addHumanButton");
 const apply_button = document.querySelector(".applyButton");
 
 const humanGenerationBtn = document.getElementById("btn-human");
-const humanGenerationContent = document.querySelector(".human-generation-content");
+const humanGenerationContent = document.querySelector(".human-content");
 
 const HGCAddBtn = humanGenerationContent.querySelector(".addRandomHumanButton");
 
