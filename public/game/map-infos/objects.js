@@ -24,13 +24,12 @@ class SelectedTileBox{
         this.radius = 60;
 
         this.mapOrigin = mapOrigin
-
     }
     updateTargetPosition = (move)=>{
         this.targetX += move[0];
         this.targetY += move[1];
 
-        this.setPosition(this.targetX, this.targetY, );
+        this.setPosition(this.targetX, this.targetY);
         this.updateNonZoomedPosition();
         this.displaySelected(false);
 
@@ -44,12 +43,12 @@ class SelectedTileBox{
     
     setPosition = (x,y)=>{
 
+
         this.targetX = this.mapOrigin.x + Math.floor((x-this.mapOrigin.x)/this.mapOrigin.scaledGridStep)*this.mapOrigin.scaledGridStep + this.mapOrigin.scaledGridStep/2;
         this.targetY = this.mapOrigin.y + Math.floor((y-this.mapOrigin.y)/this.mapOrigin.scaledGridStep)*this.mapOrigin.scaledGridStep + this.mapOrigin.scaledGridStep/2;
 
         this.updateNonZoomedPosition();
         
-
         this.pixelX =Math.floor((this.targetX - this.mapOrigin.x)/this.mapOrigin.scaledGridStep);
         this.pixelY = Math.floor((this.targetY - this.mapOrigin.y)/this.mapOrigin.scaledGridStep);
         

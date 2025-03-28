@@ -2,7 +2,12 @@
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-const keys = { id: 62, userid: 2, size: 32, area: 15, forest: 43, seed: 2671363, name: "Untitled" }//JSON.parse(decodeURIComponent(urlParams.get('data')));
+let keys = JSON.parse(decodeURIComponent(urlParams.get('data')));
+
+if (keys == undefined){
+
+    keys = { id: 62, userid: 2, size: 32, area: 15, forest: 43, seed: 2671363, name: "Untitled" }
+}
 
 
 

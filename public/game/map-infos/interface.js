@@ -76,8 +76,9 @@ const humanPage = document.querySelector(".human-page");
 
 const skillList = humanPage.querySelector(".skill-list");
 const stateList = humanPage.querySelector(".state-list");
+const goodList = humanPage.querySelector(".good-list");
 
-const humanPageCloseBtn = document.getElementById("btn-close-human")
+const humanPageCloseBtn = document.getElementById("btn-close-human-page")
 
 humanPageCloseBtn.onclick = () => {
     humanPage.classList.remove('active');
@@ -88,6 +89,7 @@ setCharacteristicsOnHumanPage = (human)=>{
 
     skillList.innerHTML = "";
     stateList.innerHTML = "";
+    goodList.innerHTML = "";
 
     function capitalizeFirstLetter(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
@@ -117,6 +119,16 @@ setCharacteristicsOnHumanPage = (human)=>{
         progressBar.classList.add("progress-bar");
         stateElement.appendChild(progressBar);
         stateList.appendChild(stateElement);
+    }
+
+    for (i =0; i<goods.length; i++){
+        let goodElement = document.createElement("li");
+        goodElement.textContent = capitalizeFirstLetter(goods[i]) + ": " + human[goods[i]];
+        let progressBar = document.createElement("div");
+        progressBar.style.width = human[goods[i]] + "%";
+        progressBar.classList.add("progress-bar");
+        goodElement.appendChild(progressBar);
+        goodList.appendChild(goodElement);
     }
 
 }

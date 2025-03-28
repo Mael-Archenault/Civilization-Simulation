@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="./sidebar/style.css">
     <link rel="stylesheet" href="./human-generation-panel/style.css">
     <link rel="stylesheet" href="./map-infos/style.css">
+    <link rel="stylesheet" href="./actions/style.css">
+
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" href="data:,">
@@ -60,7 +62,22 @@
                 <input type="button" class="play-button" value="Play">
                 <input type="button" class="pause-button" value = "Pause">
             </li>
-            <li class="action-content"></li>
+            <li class="action-content">
+                <div class="title">
+                    <span>Actions</span>
+                    <i class="bx bx-info-circle" id="btn-info-action"></i>
+                </div>
+
+                
+                <div class = "action-list-container">
+                    <h2>Used Actions</h2>
+                    <ul class="used-action-list">
+                        
+                    </ul>
+                </div>
+                <input type="button" class="action-browser-button" value = "Browse Actions">   
+    
+            </li>
             <li class="history-content"></li>
         </ul>
         
@@ -104,12 +121,37 @@
             <div class="points-container">
                 <ul class="skill-list list"></ul>
                 <ul class="state-list list"></ul>
+                <ul class="good-list list"></ul>
             </div>
 
             <div class="events"></div>
         </div>
             
-            <i class="bx bx-x" id="btn-close-human"></i>
+            <i class="bx bx-x" id="btn-close-human-page"></i>
+        </div>
+    </div>
+
+    <div class="action-page">
+        <h1 class = "name"></h1>
+        <div class = "content">
+            <div class="disposable-requirements-container">
+                <h2>Disposable Requirements</h2>
+                <ul class="disposable-requirements-list"></ul>
+            </div>
+            
+            <div class="permanent-requirements-container">
+                <h2>Permanent Requirements</h2>
+                <ul class="permanent-requirements-list"></ul>
+            </div>
+            <div class="arrow">
+                <i class="bx bx-arrow-from-left"></i>
+            </div>
+            <div class="products-container">
+                <h2>Products</h2>
+                <ul class="products-list">
+            </div>
+        </div> 
+            <i class="bx bx-x" id="btn-close-action-page"></i>
         </div>
     </div>
     <div id = "selectionBox" class = "selectionBox">
@@ -186,6 +228,11 @@
     <script src="human-generation-panel/interface.js"></script>
     <script src="human-generation-panel/objects.js"></script>
     <script src="human-generation-panel/engine.js"></script>
+
+    <script src="actions/interface.js"></script>
+    <script src="actions/defaultActions.js"></script>
+    <script src="actions/objects.js"></script>
+
 
     <script src="sidebar/interface.js"></script>
 

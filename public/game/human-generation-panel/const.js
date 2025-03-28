@@ -14,7 +14,12 @@ let skills = [
     "spirituality",
     "engineering",
     "education",
-    "twerk"
+    "communication",
+    "meditation",
+    "charisma",
+    "luck",
+    "perception",
+    "resilience",
 ]
 
 let states = [
@@ -26,6 +31,12 @@ let states = [
     "sleep"
 ]
 
+
+let goods = [
+    "time",
+    "food",
+    "water"
+]
 
 let genderPossibility = ["male", "female"];
 

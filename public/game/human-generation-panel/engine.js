@@ -49,16 +49,17 @@ function boxMullerTransform() {
 
 
 
-function addRandomHuman(){
+function addRandomHuman(pixelX, pixelY){
     target = simulation.display.target
     map = simulation.display.map
-
+    console.log(target.pixelX,target.pixelY)   
     human = new Human(randomizerManager.humanRandomizer)
     human.setMap(map);
-    human.setPosition(target.pixelX,target.pixelY);
+    human.setPosition(pixelX,pixelY);
 
+         
     map.peopleMap[human.y][human.x].push(human);
-    setPeopleList(map, target.pixelX, target.pixelY);
+    setPeopleList(map, human.x, human.y);
     simulation.display.updateDisplay();
 }
 
@@ -71,7 +72,6 @@ function addHuman(human){
     target = simulation.display.target
 
     human.setMap(map);
-    human.setPosition(target.pixelX,target.pixelY);
 
     map.peopleMap[human.y][human.x].push(human);
     setPeopleList(map, human.x, human.y);
@@ -84,6 +84,9 @@ createHumanFromCharacteristics = (characteristics)=>{
     for (i = 0; i<keys.length; i++) {
         human[keys[i]] = characteristics[keys[i]];
     }
+    human.setAnimationSprites();
+    console.log(human);
+
     return human
 }
 

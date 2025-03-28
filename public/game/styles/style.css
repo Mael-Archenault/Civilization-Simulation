@@ -58,7 +58,7 @@ body .tileCursor {
     height : 100px;
     background-color: rgba(255, 255,255,0.2);
     z-index: 240;
-    transition: all 0.01s ease-in;
+    transition: top 0.05s ease-out, left 0.05s ease-out;
     border-radius: 5%;
     pointer-events: none;
 }

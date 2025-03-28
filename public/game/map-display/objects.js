@@ -136,11 +136,11 @@ class Display {
                 if (map.peopleMap[y][x].length > 0){
                     let l = map.peopleMap[y][x].length
                     for (let k=0; k<Math.min(l, 6); k++){
-                        human = map.peopleMap[y][x][k]
+                        let human = map.peopleMap[y][x][k]
                         
                     
                         let x_pos = x0 + x*gridStep + (k%3-Math.min(l-1,2)/2)*gridStep/Math.min(l,3);  // x-position of the human
-                        let y_pos = y0 + y*gridStep + (Math.floor(k/3)%2)*gridStep/Math.min(l+2,4);
+                        let y_pos = y0 + y*gridStep + (Math.floor(k/3)%2)*gridStep/Math.min(l+2,4);   // y-position of the human
                         
                         
                         this.peopleCtx.drawImage(human.image, 48*human.animationFrame,0, 48,48, x_pos, y_pos, gridStep, gridStep);

@@ -41,7 +41,7 @@ function handleMouseDown(event) {
     startX = event.clientX;
     startY = event.clientY;
 
-    simulation.display.tileCursor.style.transition = "none"; 
+    simulation.display.tileCursor.style.transition = "none";
 }
 
 function handleMouseMove(event) {
@@ -70,6 +70,7 @@ function handleMouseMove(event) {
         }
         simulation.display.updateDisplay();
     }
+    simulation.display.displayLighterTile();
    
     
 }
@@ -87,6 +88,8 @@ function handleMouseUp() {
         hasMoved = false;
         isMouseDown = false;
     }
+
+    simulation.display.tileCursor.style.transition = "top 0.05s ease-out, left 0.05s ease-out";
 }
 
 function handleMouseOver(event) {

@@ -35,14 +35,14 @@
     }
     
     i {
-        font-size: 4rem;
-        border-radius: 50%;
-        transition: all 0.3s ease-in-out;
-        margin-right: 2%;
-        color: #E74C3C; /* Soft red for close button */
-        &:hover {
-            background-color: #C0392B; /* Darker red on hover */
-        }
+            font-size: 4rem;
+            border-radius: 50%;
+            transition: all 0.3s ease-in-out;
+            margin-right: 2%;
+            color: #E74C3C; /* Soft red for close button */
+            &:hover {
+                background-color: #C0392B; /* Darker red on hover */
+            }
     }
 }
 
