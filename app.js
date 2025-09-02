@@ -16,10 +16,11 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 app.use(express.json())
-// app.use(authenticateToken)
+app.use(authenticateToken)
 app.use(express.static("public"))
 
 app.get("/home", authenticateToken, loadMaps, (req, res) => {
+    console.log("Initialization done")
     if (req.user==null) {
         res.render("index.ejs", {username: null, maps: null})
     }
@@ -71,7 +72,9 @@ app.post("/signin", async (req, res) => {
 
 
 function authenticateToken(req, res, next) {
+    console.log("Authenticate token")
     const token = req.cookies.accessToken
+    console.log(token)
     if(token == null) {
         req.user = null
         next()

@@ -29,6 +29,57 @@ class Map {
                 this.buildingMap[i][j] = new Array();
             }
         }
+
+
+        Human.map = this;
         
+    }
+
+    stepForward = ()=>{
+        let modifiedHumans = new WeakSet();
+        for (let i = 0; i<this.peopleMap.length; i++){
+            for (let j = 0; j<this.peopleMap[i].length; j++){
+                for (let people of this.peopleMap[i][j]){
+                    if (!modifiedHumans.has(people)){
+                        people.time = 40;
+                        
+                        let action = people.chooseAction()
+                            while (action!= null){
+                                console.log("Forward:", action.name);
+                                action.execute(people)
+                                action = people.chooseAction()
+                            }
+                            
+                        
+                        modifiedHumans.add(people)
+                    }
+                    
+                }
+            }
+        }
+        
+    }
+
+    stepBackward = ()=>{
+        let modifiedHumans = new WeakSet();
+        for (let i = 0; i<this.peopleMap.length; i++){
+            for (let j = 0; j<this.peopleMap[i].length; j++){
+                for (let people of this.peopleMap[i][j]){
+                    if (!modifiedHumans.has(people)){
+                        people.time = 0;
+                        let action = people.getLastAction()
+                            while (action != null && people.time < 40){
+                                console.log("Backward :", action.name);
+                                action.reverse(people)
+                                action = people.getLastAction()
+                            }
+                            
+                        
+                        modifiedHumans.add(people)
+                    }
+                    
+                }
+            }
+        }
     }
 }

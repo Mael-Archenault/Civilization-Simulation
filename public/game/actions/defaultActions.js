@@ -10,9 +10,49 @@ let defaultActions = [
         }
     },
     {
+        "name": "Move Right",
+        "disposableRequirements": {
+            "time": 10
+        },
+        "permanentRequirements": {},
+        "products": {
+            "x": 1
+        }
+    },
+    {
+        "name": "Move Left",
+        "disposableRequirements": {
+            "time": 10
+        },
+        "permanentRequirements": {},
+        "products": {
+            "x": -1
+        }
+    },
+    {
+        "name": "Move Up",
+        "disposableRequirements": {
+            "time": 10
+        },
+        "permanentRequirements": {},
+        "products": {
+            "y": -1
+        }
+    },
+    {
+        "name": "Move Down",
+        "disposableRequirements": {
+            "time": 10
+        },
+        "permanentRequirements": {},
+        "products": {
+            "y": 1
+        }
+    },
+    {
         "name": "Eat",
         "disposableRequirements": {
-            "time": 1,
+            "time": 10,
             "food": 1
         },
         "permanentRequirements": {},
@@ -23,7 +63,7 @@ let defaultActions = [
     {
         "name": "Drink",
         "disposableRequirements": {
-            "time": 1,
+            "time": 5,
             "water": 1
         },
         "permanentRequirements": {},
@@ -32,28 +72,16 @@ let defaultActions = [
         }
     },
     {
-        "name": "Meditate",
-        "disposableRequirements": {
-            "time": 5
-        },
-        "permanentRequirements": {},
-        "products": {
-            "meditation": 5,
-            "happiness": 5,
-            "energy": 2
-        }
-    },
-    {
         "name": "Hunt",
         "disposableRequirements": {
-            "time": 10,
-            "energy": 5
+            "time": 30,
+            "energy": 20
         },
         "permanentRequirements": {
             "hunting": 1
         },
         "products": {
-            "food": 3,
+            "food": 15,
             "fighting": 1
         }
     },
@@ -67,121 +95,8 @@ let defaultActions = [
             "gathering": 1
         },
         "products": {
-            "food": 2,
+            "food": 5,
             "perception": 1
-        }
-    },
-    {
-        "name": "Trade",
-        "disposableRequirements": {
-            "time": 5
-        },
-        "permanentRequirements": {
-            "trading": 1
-        },
-        "products": {
-            "food": 1,
-            "water": 1,
-            "charisma": 1
-        }
-    },
-    {
-        "name": "Craft Tools",
-        "disposableRequirements": {
-            "time": 10,
-            "energy": 5
-        },
-        "permanentRequirements": {
-            "crafting": 1
-        },
-        "products": {
-            "engineering": 1,
-            "trading": 1
-        }
-    },
-    {
-        "name": "Train Fighting",
-        "disposableRequirements": {
-            "time": 10,
-            "energy": 5
-        },
-        "permanentRequirements": {},
-        "products": {
-            "fighting": 2,
-            "resilience": 1
-        }
-    },
-    {
-        "name": "Study",
-        "disposableRequirements": {
-            "time": 10,
-            "energy": 3
-        },
-        "permanentRequirements": {},
-        "products": {
-            "intelligence": 2,
-            "education": 2
-        }
-    },
-    {
-        "name": "Explore",
-        "disposableRequirements": {
-            "time": 10,
-            "energy": 5
-        },
-        "permanentRequirements": {},
-        "products": {
-            "exploration": 2,
-            "perception": 1
-        }
-    },
-    {
-        "name": "Practice Diplomacy",
-        "disposableRequirements": {
-            "time": 5
-        },
-        "permanentRequirements": {
-            "diplomacy": 1
-        },
-        "products": {
-            "charisma": 1,
-            "leadership": 1
-        }
-    },
-    {
-        "name": "Train Leadership",
-        "disposableRequirements": {
-            "time": 10
-        },
-        "permanentRequirements": {
-            "leadership": 1
-        },
-        "products": {
-            "leadership": 2,
-            "communication": 1
-        }
-    },
-    {
-        "name": "Practice Medicine",
-        "disposableRequirements": {
-            "time": 10
-        },
-        "permanentRequirements": {
-            "medecine": 1
-        },
-        "products": {
-            "health": 5
-        }
-    },
-    {
-        "name": "Pray or Reflect",
-        "disposableRequirements": {
-            "time": 5
-        },
-        "permanentRequirements": {},
-        "products": {
-            "spirituality": 2,
-            "happiness": 3
         }
     }
 ];

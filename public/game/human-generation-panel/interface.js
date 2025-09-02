@@ -1,4 +1,4 @@
-const humanCharacteristicsPanel = document.querySelector(".human-characteristics-panel");
+const humanCharacteristicsPanel = document.querySelector(".human-generation-panel");
 const advancedCharacteristicsPanel = document.querySelector(".advanced-characteristics");
 
 

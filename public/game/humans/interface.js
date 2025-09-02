@@ -81,8 +81,9 @@ const humanPage = document.querySelector(".human-page");
 const skillList = humanPage.querySelector(".skill-list");
 const stateList = humanPage.querySelector(".state-list");
 const goodList = humanPage.querySelector(".good-list");
+const historyList = humanPage.querySelector(".history-list");
 
-const humanPageCloseBtn = document.getElementById("btn-close-human-page")
+const humanPageCloseBtn = humanPage.querySelector(".btn-close-human-page")
 
 humanPageCloseBtn.onclick = () => {
     humanPage.classList.remove('active');
@@ -133,6 +134,12 @@ setCharacteristicsOnHumanPage = (human)=>{
         progressBar.classList.add("progress-bar");
         goodElement.appendChild(progressBar);
         goodList.appendChild(goodElement);
+    }
+
+    for (i=0; i<human.history.length; i++){
+        let historyElement = document.createElement("li");
+        historyElement.textContent = human.history[i].name;
+        historyList.appendChild(historyElement);
     }
 
 }

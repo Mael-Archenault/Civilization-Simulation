@@ -20,6 +20,7 @@ let skills = [
     "luck",
     "perception",
     "resilience",
+    "skill"
 ]
 
 let states = [

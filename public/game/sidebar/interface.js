@@ -18,9 +18,6 @@ let humanContent = document.querySelector(".human-content");
 let buildingBtn = document.getElementById("btn-building");
 let buildingContent = document.querySelector(".building-content");
 
-let simulationBtn = document.getElementById("btn-simulation");
-let simulationContent = document.querySelector(".simulation-content");
-
 let actionBtn = document.getElementById("btn-action");
 let actionContent = document.querySelector(".action-content");
 
@@ -33,7 +30,6 @@ homeBtn.onclick = function () {
     homeContent.classList.toggle("active");
     humanContent.classList.remove("active");
     buildingContent.classList.remove("active");
-    simulationContent.classList.remove("active");
     actionContent.classList.remove("active");
     historyContent.classList.remove("active");
 }
@@ -42,7 +38,6 @@ humanGenerationBtn.onclick = function () {
     homeContent.classList.remove("active");
     humanContent.classList.toggle("active");
     buildingContent.classList.remove("active");
-    simulationContent.classList.remove("active");
     actionContent.classList.remove("active");
     historyContent.classList.remove("active");
 }
@@ -51,16 +46,6 @@ buildingBtn.onclick = function () {
     homeContent.classList.remove("active");
     humanContent.classList.remove("active");
     buildingContent.classList.toggle("active");
-    simulationContent.classList.remove("active");
-    actionContent.classList.remove("active");
-    historyContent.classList.remove("active");
-}
-
-simulationBtn.onclick = function () {
-    homeContent.classList.remove("active");
-    humanContent.classList.remove("active");
-    buildingContent.classList.remove("active");
-    simulationContent.classList.toggle("active");
     actionContent.classList.remove("active");
     historyContent.classList.remove("active");
 }
@@ -69,7 +54,6 @@ actionBtn.onclick = function () {
     homeContent.classList.remove("active");
     humanContent.classList.remove("active");
     buildingContent.classList.remove("active");
-    simulationContent.classList.remove("active");
     actionContent.classList.toggle("active");
     historyContent.classList.remove("active");
 }
@@ -78,7 +62,6 @@ historyBtn.onclick = function () {
     homeContent.classList.remove("active");
     humanContent.classList.remove("active");
     buildingContent.classList.remove("active");
-    simulationContent.classList.remove("active");
     actionContent.classList.remove("active");
     historyContent.classList.toggle("active");
 }

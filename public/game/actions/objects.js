@@ -29,11 +29,20 @@ class Action{
         }
         return true;
     }
-    execute(actor){
+    execute=(actor)=>{
+
         actor.consumeResources(this.disposableRequirements);
         actor.addProducts(this.products);
+        actor.addToHistory(this);
         
         
+    }
+
+    reverse = (actor)=>{
+
+        actor.removeFromHistory();
+        actor.removeProducts(this.products);
+        actor.addResources(this.disposableRequirements);
     }
 
     loadActionFromJSON = (action)=>{

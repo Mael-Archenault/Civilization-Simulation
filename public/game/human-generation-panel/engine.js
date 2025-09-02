@@ -54,11 +54,8 @@ function addRandomHuman(pixelX, pixelY){
     map = simulation.display.map
     console.log(target.pixelX,target.pixelY)   
     human = new Human(randomizerManager.humanRandomizer)
-    human.setMap(map);
     human.setPosition(pixelX,pixelY);
 
-         
-    map.peopleMap[human.y][human.x].push(human);
     setTotalHumansList(map);
     setSelectedHumansList(map, human.x, human.y);
     simulation.display.updateDisplay();
@@ -72,9 +69,8 @@ function addHuman(human){
     map = simulation.display.map
     target = simulation.display.target
 
-    human.setMap(map);
+    human.setPosition(human.x,human.y);
 
-    map.peopleMap[human.y][human.x].push(human);
     setTotalHumansList(map);
     setSelectedHumansList(map, human.x, human.y);
     simulation.display.updateDisplay();
@@ -88,6 +84,7 @@ createHumanFromCharacteristics = (characteristics)=>{
     }
     human.setAnimationSprites();
     console.log(human);
+
 
     return human
 }

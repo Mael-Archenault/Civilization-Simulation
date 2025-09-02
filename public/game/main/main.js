@@ -7,6 +7,7 @@ class Simulation {
         this.map = loadMap();
 
 
+
         // Tools
         this.display = new Display(this.map);
 
@@ -23,24 +24,26 @@ class Simulation {
 
 
 
-        // setTimeout(()=>{
-        //     this.human = new Human(randomizerManager.humanRandomizer);
-        //     this.human.sleep = 0;
-        //     this.human.time = 10;
-        //     this.human.setPosition(20,20)
-        //     this.human.setMap(this.map);
-
-
-        //     addHuman(this.human);
+        setTimeout(()=>{
+            this.human = new Human(randomizerManager.humanRandomizer);
+            this.human.setPosition(10,20)
+            addHuman(this.human);
             
-        // }, 2000);
-        
+        }, 100);
     }
 
 
     localSave = ()=>{
         // Save map and simulation state
         localStorage.setItem("map", JSON.stringify(this.map));
+    }
+
+    stepForward = ()=>{
+        this.map.stepForward();
+    }
+
+    stepBackward = ()=>{
+        this.map.stepBackward();
     }
 }
 

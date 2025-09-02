@@ -142,7 +142,7 @@
         .main {
             width: 10%;
             height: 100%;
-            background-color: #313131;
+            background-color: #222121;
             padding : 10px;
             border-radius: 10px;
             display: flex;
@@ -154,7 +154,7 @@
                 text-align: center;
                 padding : 5px 10px;
 
-                border-radius : 5px;
+                border-radius : 20px;
                 margin : 10px;
                 transition: background-color 0.3s ease;
                 background: #363738;
@@ -174,7 +174,7 @@
             flex-direction: line;
             align-items: center;
             justify-content: space-between;
-            width:50%;
+            width:60%;
             height: 100%;
             background-color: #1E1E1E;
 
@@ -190,10 +190,10 @@
         
                 li {
                     padding : 10px;
-                    border-radius : 5px;
+                    border-radius : 15px;
                     margin : 10px;
                     transition: background-color 0.3s ease;
-                    background: #363738;
+                    background: #1a1b1b;
         
                     &:hover {
                         background-color: #2C3E50; /* Darker blue on hover */
@@ -212,12 +212,26 @@
             }
         }
 
-        .events{
-            width: 30%;
+        .history-list{
+            width: 20%;
             height: 100%;
             background-color: #313131;
             padding : 10px;
             border-radius: 10px;
+            overflow-y: auto;
+
+            li {
+                padding : 10px;
+                border-radius : 5px;
+                margin : 10px;
+                transition: background-color 0.3s ease;
+                background: #363738;
+    
+                &:hover {
+                    background-color: #2C3E50; /* Darker blue on hover */
+                }
+
+            }
         }
     }
 
@@ -226,7 +240,7 @@
 
     
 
-    #btn-close-human-page {
+    .btn-close-human-page {
         position : absolute;
         top : 15px;
         right : 15px;

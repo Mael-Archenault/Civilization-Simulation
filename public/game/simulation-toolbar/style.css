@@ -1,0 +1,64 @@
+.simulation-toolbar{
+
+    position : absolute;
+    top : 90%;
+    left : 50%;
+    transform : translate(-50%, -50%);
+    z-index: 51;
+    background-color: rgba(0,0,0,0.2);
+
+    border-radius: 25px;
+
+
+    display : flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    width : 30%;
+    height : 50px;
+
+    transition: all 0.5s ease-in-out;
+
+
+    i {
+        color : rgba(255,255,255,0.2);
+        font-size : 3rem;
+        cursor: pointer;
+        transition: all 0.5s ease-in-out;
+
+        &:hover{
+            transform : translateY(-3px);
+            scale : 1.05;
+            text-shadow:
+                1px 1px 1px rgba(255,255,255,0.9), /* bottom right */
+                -1px -1px 1px rgba(255,255,255,0.9), /* top left */
+                1px -1px 1px rgba(255,255,255,0.9), /* top right */
+                -1px 1px 1px rgba(255,255,255,0.9); /* bottom left */
+        }
+    }
+
+    &:hover{
+        background-color: rgba(0,0,0,0.5);
+
+        i {
+            color : white;
+        }
+
+        .options{
+            color: rgba(255,255,255,0.5);
+            background-color: rgba(0,0,0,0.5);
+            border-color : rgba(200,200,200,0.5);
+        }
+    }
+
+    .options {
+        padding: 8px;
+        font-size: 12px;
+        border-radius: 5px;
+        border-color : rgba(200,200,200,0.2);
+        background-color: rgba(0,0,0,0.2);
+        color: rgba(255,255,255,0.2);
+        cursor: pointer;
+        transition : all 0.5s ease-in-out;
+    }
+}

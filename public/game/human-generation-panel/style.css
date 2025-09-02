@@ -1,5 +1,5 @@
 /* Overall */
-.human-characteristics-panel {
+.human-generation-panel {
     position: absolute;
     top: 0%;
     left: -100%;
@@ -15,12 +15,12 @@
     transition: left 0.5s ease-in-out;
 }
 
-.human-characteristics-panel.active {
+.human-generation-panel.active {
     left: 0%;
 }
 
 /* Header */
-.human-characteristics-panel .header {
+.human-generation-panel .header {
     width: 100%;
     height: 15%;
     display: flex;
@@ -47,7 +47,7 @@
 }
 
 /* Section titles */
-.human-characteristics-panel .titles {
+.human-generation-panel .titles {
     display: flex;
     justify-content: space-evenly;
     width: 100%;
@@ -65,7 +65,7 @@
 
 /* Caracteristics */
 
-.human-characteristics-panel .characteristics {
+.human-generation-panel .characteristics {
     height: 80%;
     width: 100%;
     display: flex;
@@ -174,7 +174,7 @@
 
 /* Apply button */
 
-.human-characteristics-panel .buttons {
+.human-generation-panel .buttons {
     display: flex;
     justify-content: center;
     align-items: center;

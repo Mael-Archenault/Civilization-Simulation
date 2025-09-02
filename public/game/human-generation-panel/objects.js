@@ -2,6 +2,7 @@ class Human {
 
 
     static instances = [];
+    static map;
 
     constructor(randomizer) {
         // long-time changing characteristics
@@ -13,6 +14,8 @@ class Human {
         this.IMC = randomIMC(this.randomizer);
         this.height = Math.round(randomHeight(this.sex),2);
         this.weight = Math.round(this.IMC*(this.height/100)**2, 2);
+
+        this.history = [];
 
         this.image;
         
@@ -40,9 +43,6 @@ class Human {
             this[goods[i]] = 100;
         }
 
-
-        this.map;
-
         this.animationFrame = 0;
         this.setAnimationSprites();
 
@@ -66,18 +66,22 @@ class Human {
         }
     }
 
+
     setMap = (map)=>{
-        this.map = map;
+        Human.map = map;
     }
 
     setPosition = (x, y)=>{
+        Human.map.peopleMap[this.y][this.x] = Human.map.peopleMap[this.y][this.x].filter(human => human!=this)
         this.x = x;
         this.y = y;
+
+        Human.map.peopleMap[this.y][this.x].push(this);
     }
 
 
     delete = ()=>{
-        this.map.peopleMap[this.y][this.x] = this.map.peopleMap[this.y][this.x].filter(human => human !== this)
+        Human.map.peopleMap[this.y][this.x] = Human.map.peopleMap[this.y][this.x].filter(human => human !== this)
 
         Human.instances = Human.instances.filter(instance => instance != this);
     }
@@ -88,21 +92,84 @@ class Human {
     }
 
     consumeResources = (resources)=>{
-        console.log(resources);
         for (let resourcename in resources){
             this[resourcename] -= resources[resourcename];
-            if (this[resourcename] <= 0){
+
+            if (this[resourcename] < 0){ // Security (normally not happening)
                 this[resourcename] = 0;
             }
         }
     }
 
-    addProducts = (products)=>{
-        for (let productname in products){
-            console.log("Adding " + products[productname]+ " to " + productname);
-            this[productname] += products[productname];
+    addResources = (resources)=>{
+        for (let resourcename in resources){
+            this[resourcename] += resources[resourcename];
+
         }
     }
+
+    addProducts = (products)=>{
+
+        
+        for (let productname in products){
+
+            if (productname == "x"){
+                this.setPosition(this.x + products[productname], this.y);
+            }
+            else if (productname == "y"){
+                this.setPosition(this.x, this.y + products[productname]);
+            }
+            else {
+                this[productname] += products[productname];
+            }
+            
+        }
+
+        
+    }
+
+    removeProducts = (products)=>{
+        for (let productname in products){
+
+            if (productname == "x"){
+                this.setPosition(this.x - products[productname], this.y);
+            }
+            else if (productname == "y"){
+                this.setPosition(this.x, this.y - products[productname]);
+            }
+            else {
+                this[productname] -= products[productname];
+            }
+            
+        }
+    }
+
+    addToHistory = (action)=>{
+        this.history.push(action);
+    }
+
+    removeFromHistory = ()=>{
+        this.history.pop();
+    }
+
+    chooseAction = ()=>{
+        
+        let possibleActionList = simulation.actions.filter(action=>action.isPossible(this)==true)
+        
+        if (possibleActionList==[]){
+            return null
+        }
+        return possibleActionList[randomizerManager.actionRandomizer.nextInt(0, possibleActionList.length)]
+    }
+
+    getLastAction = ()=>{
+        if (this.history.length ==0){
+            return null;
+        }
+        randomizerManager.actionRandomizer.previous();
+        return this.history[this.history.length -1];
+    }
+   
 
     
 }
